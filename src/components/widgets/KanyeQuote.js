@@ -26,6 +26,7 @@ const WidgetDefinition = {
   id: 'hwk_kanye_quote',
   name: 'What Kanye West says',
   component: BaseWidget,
+  tags: ['quotes'],
 }
 
 export default WidgetDefinition

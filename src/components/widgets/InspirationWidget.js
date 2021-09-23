@@ -27,6 +27,7 @@ const WidgetDefinition = {
   id: 'hwk_inspiration',
   name: 'Be Inspired',
   component: BaseWidget,
+  tags: ['quotes'],
 }
 
 export default WidgetDefinition

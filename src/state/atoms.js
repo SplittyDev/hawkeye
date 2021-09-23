@@ -8,3 +8,9 @@ export const themeState = atom({
   default: 'light',
   effects_UNSTABLE: [persistAtom],
 })
+
+export const categoryState = atom({
+  key: 'categoryState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+})

@@ -3,6 +3,8 @@ import Masonry from 'react-masonry-css'
 
 import { IpAddressWidget, QOTDWidget, AdviceWidget, KanyeQuoteWidget } from './widgets'
 import Widget from './widgets/Widget'
+import { useRecoilValue } from 'recoil'
+import { categoryState } from 'state'
 
 const widgets = [
   IpAddressWidget,
@@ -12,10 +14,12 @@ const widgets = [
 ]
 
 const WidgetLoader = ({ className }) => {
+  const selectedCategory = useRecoilValue(categoryState)
+
   return (
     <div className={className}>
       <Masonry breakpointCols={2} className="grid" columnClassName="grid--column">
-        { widgets.map(widget => (
+        { widgets.filter(widget => selectedCategory !== 'home' ? widget.tags.includes(selectedCategory) : true).map(widget => (
           <Widget key={widget.id} from={widget} />
         )) }
       </Masonry>

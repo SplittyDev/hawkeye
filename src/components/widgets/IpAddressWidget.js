@@ -26,6 +26,7 @@ const WidgetDefinition = {
   id: 'hwk_ip_address',
   name: 'IP Address',
   component: IpAddressWidgetStyled,
+  tags: [],
 }
 
 export default WidgetDefinition

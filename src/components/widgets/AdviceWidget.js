@@ -26,6 +26,7 @@ const WidgetDefinition = {
   id: 'hwk_advice_slip',
   name: 'Random Advice',
   component: AdviceWidgetStyled,
+  tags: ['quotes'],
 }
 
 export default WidgetDefinition

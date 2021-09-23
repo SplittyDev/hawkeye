@@ -43,6 +43,7 @@ const WidgetDefinition = {
   id: 'hwk_quote_of_the_day',
   name: 'Today\'s Quote',
   component: QuoteOfTheDayWidgetStyled,
+  tags: ['quotes'],
 }
 
 export default WidgetDefinition
