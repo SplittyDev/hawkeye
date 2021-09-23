@@ -1,8 +1,10 @@
 import { atom } from 'recoil'
+import { recoilPersist } from 'recoil-persist'
 
-import { LightTheme, DarkTheme } from 'theme'
+const { persistAtom } = recoilPersist()
 
 export const themeState = atom({
   key: 'themeState',
-  default: LightTheme,
+  default: 'light',
+  effects_UNSTABLE: [persistAtom],
 })
