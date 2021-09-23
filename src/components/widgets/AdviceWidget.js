@@ -6,7 +6,7 @@ const AdviceWidget = ({ className }) => {
 
   useEffect(() => {
     (async () => {
-      const resp = await fetch('https://api.adviceslip.com/advice')
+      const resp = await fetch('https://api.adviceslip.com/advice', { encoding: 'utf8' })
       const json = await resp.json()
       setAdvice(json.slip.advice)
     })()
