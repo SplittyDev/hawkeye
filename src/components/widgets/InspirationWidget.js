@@ -26,7 +26,7 @@ const BaseWidgetStyled = styled(BaseWidget)`
 const WidgetDefinition = {
   id: 'hwk_inspiration',
   name: 'Be Inspired',
-  component: BaseWidget,
+  component: BaseWidgetStyled,
   tags: ['quotes'],
 }
 

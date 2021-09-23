@@ -25,7 +25,7 @@ const BaseWidgetStyled = styled(BaseWidget)`
 const WidgetDefinition = {
   id: 'hwk_kanye_quote',
   name: 'What Kanye West says',
-  component: BaseWidget,
+  component: BaseWidgetStyled,
   tags: ['quotes'],
 }
 

@@ -1,4 +1,4 @@
-import styled, { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'styled-components'
 import {
   BrowserRouter as Router,
   Switch,
