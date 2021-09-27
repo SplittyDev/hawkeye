@@ -26,7 +26,7 @@ const HomePage = ({ className }) => {
 }
 
 export default styled(HomePage)`
-& .header {
+& > .header {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;

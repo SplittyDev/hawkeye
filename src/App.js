@@ -11,7 +11,7 @@ import { themeState } from 'state'
 
 import HomePage from 'pages/HomePage'
 
-const AppWrapper = ({children}) => {
+const AppWrapper = ({ children }) => {
   const theme = useRecoilValue(themeState)
 
   return (
@@ -23,18 +23,20 @@ const AppWrapper = ({children}) => {
   )
 }
 
-const App = () => {
+const App = ({ className }) => {
   return (
-    <RecoilRoot>
-      <AppWrapper>
-        <Switch>
-          <Route exact path="/">
-            <HomePage />
-          </Route>
-        </Switch>
-      </AppWrapper>
-    </RecoilRoot>
-  );
+    <div className={className}>
+      <RecoilRoot>
+        <AppWrapper>
+          <Switch>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+          </Switch>
+        </AppWrapper>
+      </RecoilRoot>
+    </div>
+  )
 }
 
 export default App;

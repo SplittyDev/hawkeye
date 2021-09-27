@@ -14,3 +14,9 @@ export const categoryState = atom({
   default: '',
   effects_UNSTABLE: [persistAtom],
 })
+
+export const widgetSettingsState = atom({
+  key: 'widgetSettingsState',
+  default: {},
+  effects_UNSTABLE: [persistAtom],
+})

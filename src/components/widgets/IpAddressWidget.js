@@ -1,10 +1,15 @@
 import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
+import { isNil } from 'lodash'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-const IpAddressWidget = ({ className }) => {
+const IpAddressWidget = ({ className, widgetOptions }) => {
   const [ipAddress4, setIpAddress4] = useState(null)
   const [ipAddress6, setIpAddress6] = useState(null)
+
+  const { enableIPv4, enableIPv6 } = widgetOptions;
+  const skeletonLineCount = enableIPv4 && enableIPv6 ? 2 : 1
+  const isLoading = isNil(enableIPv4) && isNil(enableIPv6)
 
   useEffect(() => {
     (async () => {
@@ -18,10 +23,13 @@ const IpAddressWidget = ({ className }) => {
   })
 
   return (
-    <WidgetSkeletonLoader isLoading={ipAddress4 === null && ipAddress6 === null} lineCount={2} content={(
+    <WidgetSkeletonLoader isLoading={isLoading} lineCount={skeletonLineCount} content={(
       <div className={className}>
-        {ipAddress4 && (<div className="ipv4">{ipAddress4}</div>)}
-        {ipAddress6 && (<div className="ipv6">{ipAddress6}</div>)}
+        {enableIPv4 && ipAddress4 && (<div className="ipv4">{ipAddress4}</div>)}
+        {enableIPv6 && ipAddress6 && (<div className="ipv6">{ipAddress6}</div>)}
+        {!enableIPv4 && !enableIPv6 && (
+          <div>Please enable either IPv4 or IPv6.</div>
+        )}
       </div>
     )} />
   )
@@ -35,6 +43,18 @@ const WidgetDefinition = {
   name: 'IP Address',
   component: IpAddressWidgetStyled,
   tags: [],
+  options: {
+    enableIPv4: {
+      name: 'Enable IPv4',
+      type: 'bool',
+      defaultValue: true
+    },
+    enableIPv6: {
+      name: 'Enable IPv6',
+      type: 'bool',
+      defaultValue: false
+    }
+  }
 }
 
 export default WidgetDefinition
