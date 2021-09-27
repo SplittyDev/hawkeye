@@ -42,7 +42,7 @@ const WidgetDefinition = {
   id: 'hwk_ip_address',
   name: 'IP Address',
   component: IpAddressWidgetStyled,
-  tags: [],
+  tags: ['utilities'],
   options: {
     enableIPv4: {
       name: 'Enable IPv4',

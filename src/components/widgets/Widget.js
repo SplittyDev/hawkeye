@@ -126,11 +126,13 @@ export default styled(Widget)`
     margin-bottom: .5rem;
 
     & > .name {
+      color: ${ props => props.theme.widgetForegroundColor };
       opacity: ${ props => props.theme.widgetTitleOpacity };
       font-weight: bold;
     }
 
     & > .settings > svg {
+      cursor: pointer;
       transition: transform .33s ease;
 
       &:hover {
