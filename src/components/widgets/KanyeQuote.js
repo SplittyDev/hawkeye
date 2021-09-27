@@ -1,3 +1,4 @@
+import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
@@ -13,9 +14,11 @@ const BaseWidget = ({ className }) => {
   }, [])
 
   return (
-    <div className={className}>
-      {advice}
-    </div>
+    <WidgetSkeletonLoader isLoading={advice === null} lineCount={2} content={(
+      <div className={className}>
+        {advice}
+      </div>
+    )} />
   )
 }
 

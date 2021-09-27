@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
+
 const QuoteOfTheDayWidget = ({ className }) => {
   const [quote, setQuote] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -23,13 +25,15 @@ const QuoteOfTheDayWidget = ({ className }) => {
   }, [quote])
 
   return (
-    <div className={className}>
-      { !isLoading && (
-        <div className="content">
-          {quote.content} <span className="author">~ {quote.author}</span>
-        </div>
-      )}
-    </div>
+    <WidgetSkeletonLoader loading={isLoading} lineCount={4} content={(
+      <div className={className}>
+        { !isLoading && (
+          <div className="content">
+            {quote.content} <span className="author">~ {quote.author}</span>
+          </div>
+        )}
+      </div>
+    )} />
   )
 }
 
