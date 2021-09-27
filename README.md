@@ -49,7 +49,13 @@ const WidgetDefinition = {
 export default WidgetDefinition
 ```
 
-The `name` and `defaultValue` keys are optional. If the `name` is missing, the key of the object will be used instead. If the `defaultValue` is missing, Hawkeye will try to use a sensible default value. Options of type `bool` will default to false.
+### Option Keys
+
+| Key            | Type (JS)                  | Required |
+| -------------- | -------------------------- | -------- |
+| `name`         | `string`                   | `no`     |
+| `type`         | `string`                   | `yes`    |
+| `defaultValue` | `any`                      | `no`     |
 
 ### Option Types
 
