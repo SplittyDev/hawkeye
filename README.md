@@ -16,8 +16,11 @@ This is a toy project of mine and might never be finished.
 
 - Create a new widget in `src/components/widgets/`
   - You can use the `IpAddressWidget.js` as a starting point
-- Export the widget in `src/components/widgets/index.js`
+- Export the widget as part of `ModuleList` in `src/components/widgets/index.js`
+- Export the widget itself in `src/components/widgets/index.js`
+  - This step will be removed in the future.
 - Add the widget to the `widgets` array in `src/components/WidgetLoader.js`
+  - This step will be removed in the future.
 
 ## Widget Definitions
 
