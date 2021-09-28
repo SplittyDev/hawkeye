@@ -26,7 +26,6 @@ const WidgetSettings = ({ className, widget }) => {
   const [widgetSettings, setWidgetSettings] = useRecoilState(widgetSettingsState)
 
   const serialize = (key, value) => {
-    console.log(`[Serialize] ${key}: ${value}`)
     const newValue = set(cloneDeep(widgetSettings), `${widget.id}.${key}`, value)
     setWidgetSettings(newValue)
   }
