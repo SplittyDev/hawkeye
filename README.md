@@ -15,7 +15,7 @@ This is a toy project of mine and might never be finished.
 ## Extending Hawkeye
 
 - Create a new widget in `src/components/widgets/`
-  - You can use the `IpAddressWidget.js` as a starting point
+  - You can use the `DummyWidget.js` as a starting point
 - Export the widget as part of `ModuleList` in `src/components/widgets/index.js`
 - Export the widget itself in `src/components/widgets/index.js`
   - This step will be removed in the future.
@@ -31,26 +31,29 @@ While the component is responsible for handling user-interaction and rendering, 
 Here's an example of a widget definition:
 ```js
 const WidgetDefinition = {
-  id: 'hwk_ip_address',
-  name: 'IP Address',
-  component: IpAddressWidgetStyled,
-  tags: ['utilities'],
+  id: WIDGET_ID,
+  name: WIDGET_NAME,
+  tags: WIDGET_TAGS,
+  actions: {
+    [ACTION_REFRESH]: {
+      icon: FiRefreshCw, // from react-icons
+    }
+  },
   options: {
-    enableIPv4: {
-      name: 'Enable IPv4',
+    isEnabled: {
+      name: 'Enabled?',
       type: 'bool',
       defaultValue: true
     },
-    enableIPv6: {
-      name: 'Enable IPv6',
-      type: 'bool',
-      defaultValue: false
-    }
-  }
+  },
+  component: WidgetStyled,
 }
 
 export default WidgetDefinition
 ```
+
+## Widget Options
+> Options are used to pass dynamic configuration to the widget.
 
 ### Option Keys
 
@@ -65,3 +68,39 @@ export default WidgetDefinition
 | Type       | Default Value              |
 | ---------- | -------------------------- |
 | `bool`     | `false`
+
+## Widget Actions
+> Actions are used to provide buttons in the widget header.
+
+1. You can provide actions in the `action` key of your widget definition
+2. The `useWidgetAction` hook can then be used to react to the action being fired
+
+### Example
+
+```js
+const WIDGET_ID = 'my_widget'
+const ACTION_REFRESH = 'refresh'
+
+const Widget = () => {
+  useWidgetAction(WIDGET_ID, ACTION_REFRESH, () => {
+    // Do something on refresh
+  })
+
+  return (
+    <div>Hello world</div>
+  )
+}
+
+const WidgetDefinition = {
+  id: WIDGET_ID,
+  tags: [],
+  actions: {
+    [ACTION_REFRESH]: {
+      icon: FiRefreshCw, // from react-icons
+    }
+  },
+  component: Widget,
+}
+
+export default WidgetDefinition
+```
