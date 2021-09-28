@@ -2,13 +2,12 @@ import styled from "styled-components"
 import { random } from "lodash"
 
 const WidgetSkeletonLoader = ({ className, content, loading, lineCount = 1 }) => {
-
   return (
     <>
       { loading && (
         <div className={className}>
           { [...Array(lineCount)].map((_, i) => i + 1).map(line => (
-            <div className="line" style={{ width: line < lineCount ? `${random(85, 95)}%` : `${random(45, 75)}%` }}>
+            <div className="line" key={line.toString()} style={{ width: line < lineCount ? `${random(85, 95)}%` : `${random(45, 75)}%` }}>
               <div className="lineShine" />
             </div>
           )) }

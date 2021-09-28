@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useEffect, useState } from 'react'
+import { isNil } from 'lodash'
 
 import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
 
@@ -7,9 +8,15 @@ const QuoteOfTheDayWidget = ({ className }) => {
   const [quote, setQuote] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    (async () => {
-      const resp = await fetch('https://quotes.rest/qod')
+  const fetchQuote = async () => {
+    setIsLoading(true)
+    try {
+      const resp = await fetch('https://quotes.rest/qod', {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      })
       const json = await resp.json()
       if (!json.success) return
       const quoteContents = json.contents.quotes[0]
@@ -17,19 +24,27 @@ const QuoteOfTheDayWidget = ({ className }) => {
         content: quoteContents.quote,
         author: quoteContents.author,
       })
-    })()
-  })
+      setIsLoading(false)
+    } catch {
+      setIsLoading(false)
+    }
+  }
 
   useEffect(() => {
-    setIsLoading(quote === null)
-  }, [quote])
+    fetchQuote()
+  }, [])
 
   return (
     <WidgetSkeletonLoader loading={isLoading} lineCount={4} content={(
       <div className={className}>
-        { !isLoading && (
+        { !isNil(quote) && (
           <div className="content">
             {quote.content} <span className="author">~ {quote.author}</span>
+          </div>
+        )}
+        { isNil(quote) && (
+          <div className="content">
+            No quote today :(
           </div>
         )}
       </div>

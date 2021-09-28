@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 import Masonry from 'react-masonry-css'
-
-import { IpAddressWidget, QOTDWidget, AdviceWidget, KanyeQuoteWidget, PasswordinatorWidget } from './widgets'
-import Widget from './widgets/Widget'
 import { useRecoilValue } from 'recoil'
 import { categoryState } from 'state'
+
+import Widget from './Widget'
+import { IpAddressWidget, QOTDWidget, AdviceWidget, KanyeQuoteWidget, PasswordinatorWidget } from './widgets'
 
 const widgets = [
   IpAddressWidget,
