@@ -1,9 +1,13 @@
-import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useEffect, useState } from 'react'
+import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
+
+const WIDGET_ID = 'hwk_inspiration'
 
 const BaseWidget = ({ className }) => {
   const [advice, setAdvice] = useState(null)
+
+  const setIsLoading = useSkeletonLoader(WIDGET_ID)
 
   useEffect(() => {
     (async () => {
@@ -11,15 +15,14 @@ const BaseWidget = ({ className }) => {
       console.log(resp)
       const json = await resp.json()
       setAdvice(json.quote)
+      setIsLoading(false)
     })()
   }, [])
 
   return (
-    <WidgetSkeletonLoader isLoading={advice === null} content={(
-      <div className={className}>
-        {advice}
-      </div>
-    )} />
+    <div className={className}>
+      {advice}
+    </div>
   )
 }
 
@@ -27,7 +30,7 @@ const BaseWidgetStyled = styled(BaseWidget)`
 `
 
 const WidgetDefinition = {
-  id: 'hwk_inspiration',
+  id: WIDGET_ID,
   name: 'Be Inspired',
   component: BaseWidgetStyled,
   tags: ['quotes'],

@@ -4,11 +4,11 @@ import { useRecoilValue } from 'recoil'
 import { categoryState } from 'state'
 
 import Widget from './Widget'
-import { IpAddressWidget, QOTDWidget, AdviceWidget, KanyeQuoteWidget, PasswordinatorWidget } from './widgets'
+import { IpAddressWidget, AdviceWidget, KanyeQuoteWidget, PasswordinatorWidget, SimpleCryptoPriceWidget } from './widgets'
 
 const widgets = [
   IpAddressWidget,
-  QOTDWidget,
+  SimpleCryptoPriceWidget,
   AdviceWidget,
   KanyeQuoteWidget,
   PasswordinatorWidget,

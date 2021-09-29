@@ -1,19 +1,43 @@
 import styled from "styled-components"
-import { random } from "lodash"
+import { useState, useEffect } from "react"
 
-const WidgetSkeletonLoader = ({ className, content, loading, lineCount = 1 }) => {
+import useInterval from "hooks/useInterval"
+import { isLoading } from "hooks/useSkeletonLoader"
+
+const WidgetSkeletonLoader = ({ className, children, widgetId, lineCount = 1 }) => {
+  const [loading, setLoading] = useState(true)
+
+  const poll = () => {
+    const currentValue = isLoading(widgetId)
+    if (loading !== currentValue) {
+      setLoading(currentValue)
+    }
+  }
+
+  useInterval(() => {
+    poll()
+  }, 250)
+
+  useEffect(() => {
+    poll()
+  }, [])
+
   return (
     <>
       { loading && (
         <div className={className}>
           { [...Array(lineCount)].map((_, i) => i + 1).map(line => (
-            <div className="line" key={line.toString()} style={{ width: line < lineCount ? `${random(85, 95)}%` : `${random(45, 75)}%` }}>
+            <div
+              className="line" key={line.toString()}
+              style={{ width: '75%' }}>
               <div className="lineShine" />
             </div>
           )) }
         </div>
       ) }
-      { !loading && content }
+      <div hidden={loading}>
+        { children }
+      </div>
     </>
   )
 }

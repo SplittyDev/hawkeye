@@ -4,6 +4,7 @@ import AdviceWidget from './AdviceWidget'
 import KanyeQuoteWidget from './KanyeQuote'
 import InspirationWidget from './InspirationWidget'
 import PasswordinatorWidget from './PasswordinatorWidget'
+import SimpleCryptoPriceWidget from './SimpleCryptoPriceWidget'
 
 export { default as IpAddressWidget } from './IpAddressWidget'
 export { default as QOTDWidget } from './QuoteOfTheDayWidget'
@@ -11,6 +12,7 @@ export { default as AdviceWidget } from './AdviceWidget'
 export { default as KanyeQuoteWidget } from './KanyeQuote'
 export { default as InspirationWidget } from './InspirationWidget'
 export { default as PasswordinatorWidget } from './PasswordinatorWidget'
+export { default as SimpleCryptoPriceWidget } from './SimpleCryptoPriceWidget'
 
 const ModuleList = [
   IpAddressWidget,
@@ -19,6 +21,7 @@ const ModuleList = [
   KanyeQuoteWidget,
   InspirationWidget,
   PasswordinatorWidget,
+  SimpleCryptoPriceWidget,
 ]
 
 export default ModuleList

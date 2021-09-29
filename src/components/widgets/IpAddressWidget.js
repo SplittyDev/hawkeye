@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { FiRefreshCw } from 'react-icons/fi'
 
-import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
 import { useWidgetAction } from 'hooks/useWidgetAction'
+import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
 
 const WIDGET_ID = 'hwk_ip_address'
 
@@ -12,13 +12,12 @@ const ACTION_REFRESH = 'refresh'
 const IpAddressWidget = ({ className, widgetOptions }) => {
   const [ipAddress4, setIpAddress4] = useState(null)
   const [ipAddress6, setIpAddress6] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
+
+  const setIsLoading = useSkeletonLoader(WIDGET_ID)
 
   const { enableIPv4, enableIPv6 } = widgetOptions;
-  const skeletonLineCount = enableIPv4 && enableIPv6 ? 2 : 1
 
   const fetchIP = async () => {
-    setIsLoading(true)
     const resp4 = await fetch('https://ipv4.icanhazip.com')
     const resp6 = await fetch('https://ipv6.icanhazip.com')
     const ipv4 = await resp4.text()
@@ -35,15 +34,13 @@ const IpAddressWidget = ({ className, widgetOptions }) => {
   }, [])
 
   return (
-    <WidgetSkeletonLoader isLoading={isLoading} lineCount={skeletonLineCount} content={(
-      <div className={className}>
-        {enableIPv4 && ipAddress4 && (<div className="ipv4">{ipAddress4}</div>)}
-        {enableIPv6 && ipAddress6 && (<div className="ipv6">{ipAddress6}</div>)}
-        {!enableIPv4 && !enableIPv6 && (
-          <div>Please enable either IPv4 or IPv6.</div>
-        )}
-      </div>
-    )} />
+    <div className={className}>
+      {enableIPv4 && ipAddress4 && (<div className="ipv4">{ipAddress4}</div>)}
+      {enableIPv6 && ipAddress6 && (<div className="ipv6">{ipAddress6}</div>)}
+      {!enableIPv4 && !enableIPv6 && (
+        <div>Please enable either IPv4 or IPv6.</div>
+      )}
+    </div>
   )
 }
 

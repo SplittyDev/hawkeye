@@ -3,6 +3,7 @@ import { FiRefreshCw } from 'react-icons/fi'
 
 import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
 import { useWidgetAction } from 'hooks/useWidgetAction'
+import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
 
 // Widget Configuration
 const WIDGET_ID = 'hwk_dummy'
@@ -16,9 +17,13 @@ const ACTION_REFRESH = 'refresh'
 const Widget = ({ className, widgetOptions }) => {
   const { isEnabled } = widgetOptions
 
+  const setIsLoading = useSkeletonLoader(WIDGET_ID)
+
   useWidgetAction(WIDGET_ID, ACTION_REFRESH, () => {
     // Do something on refresh
   })
+
+  setIsLoading(false) // We are not loading anymore
 
   return (
     <WidgetSkeletonLoader

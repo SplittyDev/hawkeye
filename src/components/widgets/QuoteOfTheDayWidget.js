@@ -1,15 +1,16 @@
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { isNil } from 'lodash'
 
-import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
+import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
+
+const WIDGET_ID = 'hwk_quote_of_the_day'
 
 const QuoteOfTheDayWidget = ({ className }) => {
   const [quote, setQuote] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const setIsLoading = useSkeletonLoader(WIDGET_ID)
 
-  const fetchQuote = async () => {
-    setIsLoading(true)
+  const fetchQuote = useCallback(async () => {
     try {
       const resp = await fetch('https://quotes.rest/qod', {
         headers: {
@@ -28,27 +29,25 @@ const QuoteOfTheDayWidget = ({ className }) => {
     } catch {
       setIsLoading(false)
     }
-  }
+  }, [setIsLoading])
 
   useEffect(() => {
     fetchQuote()
-  }, [])
+  }, [fetchQuote])
 
   return (
-    <WidgetSkeletonLoader loading={isLoading} lineCount={4} content={(
-      <div className={className}>
-        { !isNil(quote) && (
-          <div className="content">
-            {quote.content} <span className="author">~ {quote.author}</span>
-          </div>
-        )}
-        { isNil(quote) && (
-          <div className="content">
-            No quote today :(
-          </div>
-        )}
-      </div>
-    )} />
+    <div className={className}>
+      { !isNil(quote) && (
+        <div className="content">
+          {quote.content} <span className="author">~ {quote.author}</span>
+        </div>
+      )}
+      { isNil(quote) && (
+        <div className="content">
+          No quote today :(
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -59,7 +58,7 @@ const QuoteOfTheDayWidgetStyled = styled(QuoteOfTheDayWidget)`
 `
 
 const WidgetDefinition = {
-  id: 'hwk_quote_of_the_day',
+  id: WIDGET_ID,
   name: 'Today\'s Quote',
   component: QuoteOfTheDayWidgetStyled,
   tags: ['quotes'],

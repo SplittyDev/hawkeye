@@ -8,6 +8,7 @@ import { useRecoilValue } from 'recoil'
 import WidgetSettings from './WidgetSettings'
 import { widgetSettingsState } from 'state'
 import { invokeAction } from 'hooks/useWidgetAction'
+import WidgetSkeletonLoader from './WidgetSkeletonLoader'
 
 const buildOptions = ({ id, options }, serializedOptions) => {
   if (isNil(options)) return {}
@@ -52,7 +53,9 @@ const Widget = ({ className, from }) => {
         </div>
       </div>
       <div className="content">
-        <from.component widgetOptions={widgetOptions} />
+        <WidgetSkeletonLoader widgetId={from.id} lineCount={1}>
+          <from.component widgetOptions={widgetOptions} />
+        </WidgetSkeletonLoader>
       </div>
     </div>
   )

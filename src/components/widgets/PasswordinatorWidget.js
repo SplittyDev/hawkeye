@@ -1,16 +1,20 @@
-import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
+import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
 import { useEffect, useState } from 'react'
 import { FiRefreshCw } from 'react-icons/fi'
 import styled from 'styled-components'
 
+const WIDGET_ID = 'hwk_passwordinator'
+
 const BaseWidget = ({ className }) => {
   const [password, setPassword] = useState(null)
+  const setIsLoading = useSkeletonLoader(WIDGET_ID)
 
   const fetchPassword = async () => {
     const apiBase = 'https://passwordinator.herokuapp.com/generate?caps=true&len=10';
     const resp = await fetch(apiBase)
     const json = await resp.json()
     setPassword(json.data)
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -18,14 +22,12 @@ const BaseWidget = ({ className }) => {
   }, [])
 
   return (
-    <WidgetSkeletonLoader isLoading={password === null} lineCount={1} content={(
-      <div className={className}>
-        <div className="password">
-          <span>{password}</span>
-          <FiRefreshCw onClick={() => fetchPassword()} />
-        </div>
+    <div className={className}>
+      <div className="password">
+        <span>{password}</span>
+        <FiRefreshCw onClick={() => fetchPassword()} />
       </div>
-    )} />
+    </div>
   )
 }
 
@@ -52,7 +54,7 @@ const BaseWidgetStyled = styled(BaseWidget)`
 `
 
 const WidgetDefinition = {
-  id: 'hwk_passwordinator',
+  id: WIDGET_ID,
   name: 'Generate a secure Password',
   component: BaseWidgetStyled,
   tags: ['utilities'],
