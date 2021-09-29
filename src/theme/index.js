@@ -6,7 +6,7 @@ export const LightTheme = {
   widgetBackgroundAccent: 'hsl(0,0%,95%)',
   widgetForegroundColor: 'hsl(0,0%,5%)',
   widgetShineColor: 'hsl(0,0%,10%)',
-  widgetTitleOpacity: .33,
+  widgetTitleOpacity: .45,
 }
 
 export const DarkTheme = {
