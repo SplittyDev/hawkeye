@@ -18,6 +18,7 @@ const IpAddressWidget = ({ className, widgetOptions }) => {
   const { enableIPv4, enableIPv6 } = widgetOptions;
 
   const fetchIP = async () => {
+    setIsLoading(true)
     const resp4 = await fetch('https://ipv4.icanhazip.com')
     const resp6 = await fetch('https://ipv6.icanhazip.com')
     const ipv4 = await resp4.text()

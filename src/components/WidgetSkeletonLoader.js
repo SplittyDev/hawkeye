@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 
 import useInterval from "hooks/useInterval"
 import { isLoading } from "hooks/useSkeletonLoader"
@@ -7,12 +7,12 @@ import { isLoading } from "hooks/useSkeletonLoader"
 const WidgetSkeletonLoader = ({ className, children, widgetId, lineCount = 1 }) => {
   const [loading, setLoading] = useState(true)
 
-  const poll = () => {
+  const poll = useCallback(() => {
     const currentValue = isLoading(widgetId)
     if (loading !== currentValue) {
       setLoading(currentValue)
     }
-  }
+  }, [loading, widgetId])
 
   useInterval(() => {
     poll()
@@ -20,7 +20,7 @@ const WidgetSkeletonLoader = ({ className, children, widgetId, lineCount = 1 }) 
 
   useEffect(() => {
     poll()
-  }, [])
+  }, [poll])
 
   return (
     <>
@@ -51,7 +51,7 @@ animation-iteration-count: 1;
 
 .line {
   position: relative;
-  height: 1rem;
+  height: 1.25rem;
   background: ${ props => props.theme.widgetForegroundColor };
   z-index: 1;
   overflow: hidden;
