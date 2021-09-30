@@ -65,7 +65,7 @@ const WidgetSettings = ({ className, widget }) => {
               <SerdeCheckBox
                 key={`${widget.id}-${key}`}
                 optionKey={key}
-                defaultValue={defaultValue}
+                defaultValue={!!defaultValue}
                 serialize={serialize}
                 deserialize={deserialize}
               />
@@ -74,7 +74,7 @@ const WidgetSettings = ({ className, widget }) => {
               <SerdeTextBox
                 key={`${widget.id}-${key}`}
                 optionKey={key}
-                defaultValue={defaultValue}
+                defaultValue={defaultValue || ''}
                 serialize={serialize}
                 deserialize={deserialize}
               />
