@@ -1,12 +1,12 @@
 import { has, isNil } from 'lodash'
-import { useEffect, useRef } from 'react'
+import { useEffect, useCallback } from 'react'
 
 const widgetLoadingRegistry = {}
 
-const buildStateUpdateFn = widgetId => newValue => widgetLoadingRegistry[widgetId] = newValue
-
 export const useSkeletonLoader = widgetId => {
-  const updateFn = useRef(buildStateUpdateFn(widgetId))
+  const updateFn = useCallback(newValue => {
+    widgetLoadingRegistry[widgetId] = newValue
+  }, [widgetId])
 
   if (isNil(widgetId)) {
     throw new Error('The `widgetId` parameter MUST be specified for `useSkeletonLoader`.')
@@ -16,10 +16,9 @@ export const useSkeletonLoader = widgetId => {
     if (!has(widgetLoadingRegistry, widgetId)) {
       widgetLoadingRegistry[widgetId] = true
     }
-    updateFn.current = buildStateUpdateFn(widgetId)
   }, [widgetId])
 
-  return updateFn.current
+  return updateFn
 }
 
 export const isLoading = widgetId => {
