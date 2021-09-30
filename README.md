@@ -104,3 +104,24 @@ const WidgetDefinition = {
 
 export default WidgetDefinition
 ```
+
+## Widget Skeleton Loader
+> Widgets can use a loading animation while fetching data.
+
+```js
+const WIDGET_ID = 'my_widget'
+
+const Widget = () => {
+  const setIsLoading = useSkeletonLoader(WIDGET_ID)
+
+  useEffect(() => {
+    setIsLoading(true)
+    // Do something expensive
+    setIsLoading(false)
+  }, [])
+
+  return (
+    <div>Hello world</div>
+  )
+}
+```
