@@ -1,9 +1,10 @@
 import styled from 'styled-components'
+import { useEffect, useState } from 'react'
+import { pick } from 'lodash'
 
+import useInterval from 'hooks/useInterval'
 import { useWidgetAction } from 'hooks/useWidgetAction'
 import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
-import { useEffect, useState, useCallback } from 'react'
-import { pick } from 'lodash'
 
 // Widget Configuration
 const WIDGET_ID = 'hwk_simple_crypto_price'
@@ -15,8 +16,7 @@ const Widget = ({ className, widgetOptions }) => {
   const [coinInfo, setCoinInfo] = useState(null)
   const setLoading = useSkeletonLoader(WIDGET_ID)
 
-  const fetchPrice = useCallback(async () => {
-    setLoading(true)
+  const fetchPrice = async () => {
     try {
       const resp = await fetch('https://api.coincap.io/v2/assets/bitcoin', {
         headers: {
@@ -27,12 +27,14 @@ const Widget = ({ className, widgetOptions }) => {
       const info = pick(json['data'], 'symbol', 'priceUsd')
       setCoinInfo(info)
     } catch {}
-    setLoading(false)
-  }, [setLoading])
+  }
 
   useEffect(() => {
     fetchPrice()
-  }, [fetchPrice])
+    setLoading(false)
+  }, [setLoading])
+
+  useInterval(fetchPrice, 1000)
 
   return (
     <div className={className}>
