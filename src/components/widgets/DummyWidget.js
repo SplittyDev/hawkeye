@@ -26,15 +26,9 @@ const Widget = ({ className, widgetOptions }) => {
   setIsLoading(false) // We are not loading anymore
 
   return (
-    <WidgetSkeletonLoader
-      isLoading={!isEnabled}
-      lineCount={1}
-      content={(
-        <div className={className}>
-          {/* Content goes here */}
-        </div>
-      )}
-    />
+    <div className={className}>
+      {/* Content goes here */}
+    </div>
   )
 }
 
