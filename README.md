@@ -11,6 +11,7 @@ This is a toy project of mine and might never be finished.
 - Quote of the Day
 - IP Address Viewer
 - Password Generator
+- Simple Crypto Price
 
 ## Extending Hawkeye
 
