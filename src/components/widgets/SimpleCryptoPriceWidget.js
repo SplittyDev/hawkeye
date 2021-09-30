@@ -24,7 +24,7 @@ const Widget = ({ className, widgetOptions }) => {
         }
       })
       const json = await resp.json()
-      const info = pick(json['data'], 'symbol', 'priceUsd')
+      const info = pick(json['data'], 'name', 'symbol', 'priceUsd')
       setCoinInfo(info)
     } catch {}
   }
@@ -39,7 +39,7 @@ const Widget = ({ className, widgetOptions }) => {
   return (
     <div className={className}>
       <div className="symbol">
-        { coinInfo?.symbol ?? '' }
+        { coinInfo?.name ?? '' } ({ coinInfo?.symbol ?? '' })
       </div>
       <div className="price">
         ${ parseFloat(coinInfo?.priceUsd ?? '0').toFixed(2) }
