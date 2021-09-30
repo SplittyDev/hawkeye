@@ -16,25 +16,28 @@ const Widget = ({ className, widgetOptions }) => {
   const [coinInfo, setCoinInfo] = useState(null)
   const setLoading = useSkeletonLoader(WIDGET_ID)
 
+  const { assetName } = widgetOptions
+
   const fetchPrice = async () => {
     try {
-      const resp = await fetch('https://api.coincap.io/v2/assets/bitcoin', {
+      const resp = await fetch(`https://api.coincap.io/v2/assets/${assetName}`, {
         headers: {
           'Accept': 'application/json'
         }
       })
+      if (!resp.ok) { throw new Error() }
       const json = await resp.json()
       const info = pick(json['data'], 'name', 'symbol', 'priceUsd')
       setCoinInfo(info)
+      setLoading(false)
     } catch {}
   }
 
   useEffect(() => {
     fetchPrice()
-    setLoading(false)
-  }, [setLoading])
+  }, [])
 
-  useInterval(fetchPrice, 1000)
+  useInterval(fetchPrice, 2000)
 
   return (
     <div className={className}>
@@ -62,10 +65,10 @@ const WidgetDefinition = {
   name: WIDGET_NAME,
   tags: WIDGET_TAGS,
   options: {
-    isEnabled: {
-      name: 'Enabled?',
-      type: 'bool',
-      defaultValue: true
+    assetName: {
+      name: 'Asset Name',
+      type: 'string',
+      defaultValue: 'bitcoin'
     },
   },
   component: WidgetStyled,

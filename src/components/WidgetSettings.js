@@ -22,6 +22,23 @@ export const SerdeCheckBox = ({ optionKey, defaultValue, serialize, deserialize 
   )
 }
 
+export const SerdeTextBox = ({ optionKey, defaultValue, serialize, deserialize }) => {
+  const [value, setValue] = useState(deserialize(optionKey, defaultValue))
+
+  useEffect(() => {
+    setValue(deserialize(optionKey, defaultValue))
+  }, [optionKey, defaultValue, deserialize])
+
+  const handleChange = e => {
+    setValue(e.target.value)
+    serialize(optionKey, e.target.value)
+  }
+
+  return (
+    <input type="text" value={value} onInput={handleChange} />
+  )
+}
+
 const WidgetSettings = ({ className, widget }) => {
   const [widgetSettings, setWidgetSettings] = useRecoilState(widgetSettingsState)
 
@@ -44,8 +61,17 @@ const WidgetSettings = ({ className, widget }) => {
         return (
           <div className="row" key={`${widget.id}-${key}`}>
             <div className="name">{ name ?? key }</div>
-            { type === "bool" && (
+            { type === 'bool' && (
               <SerdeCheckBox
+                key={`${widget.id}-${key}`}
+                optionKey={key}
+                defaultValue={defaultValue}
+                serialize={serialize}
+                deserialize={deserialize}
+              />
+            )}
+            { type === 'string' && (
+              <SerdeTextBox
                 key={`${widget.id}-${key}`}
                 optionKey={key}
                 defaultValue={defaultValue}
