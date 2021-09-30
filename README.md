@@ -67,7 +67,8 @@ export default WidgetDefinition
 
 | Type       | Default Value              |
 | ---------- | -------------------------- |
-| `bool`     | `false`
+| `bool`     | `false`                    |
+| `string`   | `''`                       |
 
 ## Widget Actions
 > Actions are used to provide buttons in the widget header.
