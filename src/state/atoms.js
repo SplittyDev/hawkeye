@@ -11,7 +11,7 @@ export const themeState = atom({
 
 export const categoryState = atom({
   key: 'categoryState',
-  default: '',
+  default: 'home',
   effects_UNSTABLE: [persistAtom],
 })
 
