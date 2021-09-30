@@ -1,31 +1,26 @@
-import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
+import styled from 'styled-components'
+import secureRandomPassword from 'secure-random-password'
 import { useEffect, useState } from 'react'
 import { FiRefreshCw } from 'react-icons/fi'
-import styled from 'styled-components'
 
 const WIDGET_ID = 'hwk_passwordinator'
 
 const BaseWidget = ({ className }) => {
   const [password, setPassword] = useState(null)
-  const setIsLoading = useSkeletonLoader(WIDGET_ID)
 
-  const fetchPassword = async () => {
-    const apiBase = 'https://passwordinator.herokuapp.com/generate?caps=true&len=10';
-    const resp = await fetch(apiBase)
-    const json = await resp.json()
-    setPassword(json.data)
-    setIsLoading(false)
+  const generateNewPassword = () => {
+    setPassword(secureRandomPassword.randomPassword({ length: 12 }))
   }
 
   useEffect(() => {
-    fetchPassword()
+    generateNewPassword()
   }, [])
 
   return (
     <div className={className}>
       <div className="password">
         <span>{password}</span>
-        <FiRefreshCw onClick={() => fetchPassword()} />
+        <FiRefreshCw onClick={() => generateNewPassword()} />
       </div>
     </div>
   )

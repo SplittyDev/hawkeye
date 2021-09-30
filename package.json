@@ -18,6 +18,7 @@
     "recoil": "^0.4.1",
     "recoil-persist": "^3.0.0",
     "rodal": "^1.8.1",
+    "secure-random-password": "^0.2.3",
     "styled-components": "^5.3.1",
     "use-http": "^1.0.24",
     "web-vitals": "^1.0.1"
