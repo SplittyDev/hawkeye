@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { pick, lowerCase, get, has, find, isNil } from 'lodash'
 
 import useInterval from 'hooks/useInterval'
@@ -111,7 +111,7 @@ const Widget = ({ className, widgetOptions }) => {
 
   const { assetName } = widgetOptions
 
-  const fetchAssets = async () => {
+  const fetchAssets = useCallback(async () => {
     try {
       const resp = await fetch(`https://api.coincap.io/v2/assets?limit=200`, {
         headers: {
@@ -125,7 +125,7 @@ const Widget = ({ className, widgetOptions }) => {
       setAssets(assets)
       setLoading(false)
     } catch {}
-  }
+  }, [setLoading])
 
   const updateCoinInfo = (assets, assetName) => {
     const properAssetName = translateAssetAlias(assetName)
@@ -146,7 +146,7 @@ const Widget = ({ className, widgetOptions }) => {
 
   useEffect(() => {
     fetchAssets()
-  }, [])
+  }, [fetchAssets])
 
   useInterval(fetchAssets, 5000)
 

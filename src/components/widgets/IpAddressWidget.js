@@ -17,7 +17,7 @@ const IpAddressWidget = ({ className, widgetOptions }) => {
 
   const { enableIPv4, enableIPv6 } = widgetOptions;
 
-  const fetchIP = async () => {
+  const fetchIP = useCallback(async () => {
     setIsLoading(true)
     const resp4 = await fetch('https://ipv4.icanhazip.com')
     const resp6 = await fetch('https://ipv6.icanhazip.com')
@@ -26,13 +26,13 @@ const IpAddressWidget = ({ className, widgetOptions }) => {
     setIpAddress4(ipv4)
     setIpAddress6(ipv6)
     setIsLoading(false)
-  }
+  }, [setIsLoading])
 
   useWidgetAction(WIDGET_ID, ACTION_REFRESH, fetchIP)
 
   useEffect(() => {
     fetchIP()
-  }, [])
+  }, [fetchIP])
 
   return (
     <div className={className}>

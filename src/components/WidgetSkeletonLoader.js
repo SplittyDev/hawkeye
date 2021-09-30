@@ -14,13 +14,11 @@ const WidgetSkeletonLoader = ({ className, children, widgetId, lineCount = 1 }) 
     }
   }, [loading, widgetId])
 
-  useInterval(() => {
-    poll()
-  }, 250)
-
   useEffect(() => {
-    poll()
-  }, [poll])
+    setLoading(isLoading(widgetId))
+  }, [widgetId])
+
+  useInterval(poll, 500)
 
   return (
     <>

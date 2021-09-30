@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useEffect, useState } from 'react'
 
-import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
 import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
 
 const WIDGET_ID = 'hwk_kanye_quote'
@@ -18,7 +17,7 @@ const BaseWidget = ({ className }) => {
       setAdvice(json.quote)
       setIsLoading(false)
     })()
-  }, [])
+  }, [setIsLoading])
 
   return (
     <div className={className}>

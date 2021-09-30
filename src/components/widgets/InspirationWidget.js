@@ -17,7 +17,7 @@ const BaseWidget = ({ className }) => {
       setAdvice(json.quote)
       setIsLoading(false)
     })()
-  }, [])
+  }, [setIsLoading])
 
   return (
     <div className={className}>

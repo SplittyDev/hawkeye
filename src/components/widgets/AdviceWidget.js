@@ -15,7 +15,7 @@ const AdviceWidget = ({ className }) => {
       setAdvice(json.slip.advice)
       setIsLoading(false)
     })()
-  }, [])
+  }, [setIsLoading])
 
   return (
     <div className={className}>
