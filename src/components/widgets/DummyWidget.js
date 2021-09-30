@@ -1,7 +1,7 @@
 import styled from 'styled-components'
+import { useEffect } from 'react'
 import { FiRefreshCw } from 'react-icons/fi'
 
-import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
 import { useWidgetAction } from 'hooks/useWidgetAction'
 import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
 
@@ -23,7 +23,10 @@ const Widget = ({ className, widgetOptions }) => {
     // Do something on refresh
   })
 
-  setIsLoading(false) // We are not loading anymore
+  useEffect(() => {
+    // Do initial setup here
+    setIsLoading(false) // We are not loading anymore
+  }, [setIsLoading])
 
   return (
     <div className={className}>
