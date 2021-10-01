@@ -24,7 +24,7 @@ const buildOptions = ({ id, options }, serializedOptions) => {
   return params
 }
 
-const Widget = ({ className, from }) => {
+const Widget = ({ className, from, showActions = true }) => {
   const [showSettings, setShowSettings] = useState(false)
   const widgetSettings = useRecoilValue(widgetSettingsState)
 
@@ -37,20 +37,22 @@ const Widget = ({ className, from }) => {
       </Rodal>
       <div className="header">
         <div className="name">{from.name}</div>
-        <div className="actions">
-          { 'actions' in from && typeof from.actions === 'object' &&
-            Object.entries(from.actions).map(([actionKey, action]) => (
-              <div className="action" key={`${from.id}-action-${actionKey}`} onClick={() => invokeAction(from.id, actionKey)}>
-                <action.icon />
+        { showActions && (
+          <div className="actions">
+            { 'actions' in from && typeof from.actions === 'object' &&
+              Object.entries(from.actions).map(([actionKey, action]) => (
+                <div className="action" key={`${from.id}-action-${actionKey}`} onClick={() => invokeAction(from.id, actionKey)}>
+                  <action.icon />
+                </div>
+              ))
+            }
+            { 'options' in from && (
+              <div className="settings">
+                <FiSettings onClick={() => setShowSettings(true)} />
               </div>
-            ))
-          }
-          { 'options' in from && (
-            <div className="settings">
-              <FiSettings onClick={() => setShowSettings(true)} />
-            </div>
-          ) }
-        </div>
+            ) }
+          </div>
+        )}
       </div>
       <div className="content">
         <WidgetSkeletonLoader widgetId={from.id} lineCount={1}>

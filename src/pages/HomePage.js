@@ -3,8 +3,8 @@ import ThemeToggle from "react-dark-mode-toggle";
 import { useRecoilState } from 'recoil';
 
 import Page from 'components/Page'
-import CategoryPicker from 'components/CategoryPicker'
-import WidgetLoader from 'components/WidgetLoader'
+import DashboardPicker from 'components/DashboardPicker'
+import DashboardLoader from 'components/DashboardLoader'
 import { themeState } from 'state';
 
 const HomePage = ({ className }) => {
@@ -17,10 +17,10 @@ const HomePage = ({ className }) => {
   return (
     <Page injectClassName={className}>
       <div className="header">
-        <CategoryPicker />
+        <DashboardPicker />
         <ThemeToggle onChange={handleThemeSwitch} checked={theme === 'dark'} size={54} />
-        </div>
-      <WidgetLoader />
+      </div>
+      <DashboardLoader />
     </Page>
   )
 }

@@ -1,4 +1,9 @@
+const Common = {
+  dashboardTitleFontSize: '2rem',
+}
+
 export const LightTheme = {
+  ...Common,
   pageBackgroundColor: 'hsl(0,0%,90%)',
   pageForegroundColor: 'hsl(0,0%,5%)',
   modalBackgroundColor: 'hsl(0,0%,95%)',
@@ -10,6 +15,7 @@ export const LightTheme = {
 }
 
 export const DarkTheme = {
+  ...Common,
   pageBackgroundColor: 'hsl(0,0%,0%)',
   pageForegroundColor: 'hsl(0,0%,90%)',
   modalBackgroundColor: 'hsl(0,0%,10%)',

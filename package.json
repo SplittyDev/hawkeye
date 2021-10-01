@@ -21,6 +21,7 @@
     "secure-random-password": "^0.2.3",
     "styled-components": "^5.3.1",
     "use-http": "^1.0.24",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

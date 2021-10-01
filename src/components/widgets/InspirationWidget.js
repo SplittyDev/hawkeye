@@ -11,11 +11,13 @@ const BaseWidget = ({ className }) => {
 
   useEffect(() => {
     (async () => {
-      const resp = await fetch('https://inspiration.goprogram.ai')
-      console.log(resp)
-      const json = await resp.json()
-      setAdvice(json.quote)
-      setIsLoading(false)
+      try {
+        const resp = await fetch('https://inspiration.goprogram.ai')
+        console.log(resp)
+        const json = await resp.json()
+        setAdvice(json.quote)
+        setIsLoading(false)
+      } catch { }
     })()
   }, [setIsLoading])
 

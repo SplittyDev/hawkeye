@@ -1,10 +1,11 @@
 import styled from 'styled-components'
 import Masonry from 'react-masonry-css'
 import { useRecoilValue } from 'recoil'
-import { categoryState } from 'state'
 
 import Widget from './Widget'
 import { IpAddressWidget, AdviceWidget, KanyeQuoteWidget, PasswordinatorWidget, SimpleCryptoPriceWidget } from './widgets'
+import { currentDashboardWidgetSelector } from 'state'
+import NewWidget from './NewWidget'
 
 const widgets = [
   IpAddressWidget,
@@ -14,21 +15,23 @@ const widgets = [
   PasswordinatorWidget,
 ]
 
-const WidgetLoader = ({ className }) => {
-  const selectedCategory = useRecoilValue(categoryState)
+const DashboardLoader = ({ className }) => {
+  /** @type {[{id: string}]} */
+  const currentDashboardWidgets = useRecoilValue(currentDashboardWidgetSelector)
 
   return (
     <div className={className}>
       <Masonry breakpointCols={2} className="grid" columnClassName="grid--column">
-        { widgets.filter(widget => selectedCategory !== 'home' ? widget.tags.includes(selectedCategory) : true).map(widget => (
+        { currentDashboardWidgets.map(widget => (
           <Widget key={widget.id} from={widget} />
         )) }
+        <NewWidget />
       </Masonry>
     </div>
   )
 }
 
-export default styled(WidgetLoader)`
+export default styled(DashboardLoader)`
 padding: .5rem 0;
 
 & .grid {
