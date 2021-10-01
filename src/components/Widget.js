@@ -72,9 +72,26 @@ export default styled(Widget)`
   width: 100%;
   line-height: 1.25rem;
 
+  & .modal {
+    position: relative !important;
+  }
+
+  & .modal .rodal-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+
   & .modal .rodal-dialog {
+    position: absolute;
+    top: 1rem;
+    margin: 0 auto !important;
+    width: calc(max(300px, 60%)) !important;
     background: ${ props => props.theme.modalBackgroundColor } !important;
     color: ${ props => props.theme.widgetForegroundColor } !important;
+    box-shadow: 0 0 .25rem .15rem ${props => props.theme.modalShadowColor};
   }
 
   & > .header {
