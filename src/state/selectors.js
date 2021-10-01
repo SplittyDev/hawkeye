@@ -1,7 +1,7 @@
 import ModuleList from 'components/widgets'
 import { selector } from 'recoil'
 
-import { dashboardsState, selectedDashboardState } from 'state'
+import { dashboardsState, DEFAULT_DASHBOARD_UUID, selectedDashboardState } from 'state'
 
 export const currentDashboardSelector = selector({
   key: 'currentDashboardSelector',
@@ -10,14 +10,15 @@ export const currentDashboardSelector = selector({
     /** @type {[{uuid: string}]} */
     const dashboards = get(dashboardsState)
     const currentDashboard = dashboards.find(dashboard => dashboard.uuid === uuid)
-    return currentDashboard
+    const defaultDashboard = dashboards.find(dashboard => dashboard.uuid === DEFAULT_DASHBOARD_UUID)
+    return currentDashboard || defaultDashboard
   }
 })
 
 export const currentDashboardWidgetSelector = selector({
   key: 'currentDashboardWidgetSelector',
   get: ({ get }) => {
-    const { widgets } = get(currentDashboardSelector)
+    const { widgets } = get(currentDashboardSelector) || { widgets: [] }
     return ModuleList.filter(module => widgets.includes(module.id))
   }
 })

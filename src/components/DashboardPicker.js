@@ -1,24 +1,31 @@
 import styled from 'styled-components'
 import { useRecoilValue, useRecoilState } from 'recoil'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { FiCheckSquare, FiEdit2, FiPlusSquare, FiTrash2, FiXSquare } from 'react-icons/fi'
 import { v4 as uuidv4 } from 'uuid'
 
 import { dashboardsState, selectedDashboardState, DEFAULT_DASHBOARD_UUID } from 'state/atoms'
-import cloneDeep from 'lodash.clonedeep'
-import { isNil } from 'lodash'
+import { isNil, find, cloneDeep } from 'lodash'
 
 const DashboardCell = ({ className, dashboard }) => {
   const [selectedDashboard, setSelectedDashboard] = useRecoilState(selectedDashboardState)
   const [dashboards, setDashboards] = useRecoilState(dashboardsState)
   const [name, setName] = useState(dashboard.name)
   const [isEditing, setIsEditing] = useState(false)
+  const [isActive, setIsActive] = useState(false)
 
   const handleDashboardSwitch = useCallback(() => {
     setSelectedDashboard(dashboard.uuid)
   }, [dashboard, setSelectedDashboard])
 
-  const isActive = selectedDashboard === dashboard.uuid
+  useEffect(() => {
+    if (!isNil(find(dashboards, db => db.uuid === selectedDashboard))) {
+      setIsActive(selectedDashboard === dashboard.uuid)
+    } else if (dashboard.uuid === DEFAULT_DASHBOARD_UUID) {
+      setIsActive(true)
+    }
+  }, [dashboard, dashboards, selectedDashboard])
+
   const additionalClassName = [isActive ? 'active' : ''].join(' ').trim()
   const combinedClassNames = [className, additionalClassName].join(' ').trim()
 
@@ -44,9 +51,10 @@ const DashboardCell = ({ className, dashboard }) => {
     setIsEditing(false)
   }
 
-  const deleteDashboard = () => {
+  const deleteDashboard = useCallback(async () => {
+    setSelectedDashboard(DEFAULT_DASHBOARD_UUID)
     setDashboards(dashboards.filter(db => db.uuid !== dashboard.uuid))
-  }
+  }, [dashboards, dashboard.uuid, setDashboards, setSelectedDashboard])
 
   return (
     <div className={combinedClassNames} onClick={() => handleDashboardSwitch()}>
