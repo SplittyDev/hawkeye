@@ -3,17 +3,8 @@ import Masonry from 'react-masonry-css'
 import { useRecoilValue } from 'recoil'
 
 import Widget from './Widget'
-import { IpAddressWidget, AdviceWidget, KanyeQuoteWidget, PasswordinatorWidget, SimpleCryptoPriceWidget } from './widgets'
 import { currentDashboardWidgetSelector } from 'state'
 import NewWidget from './NewWidget'
-
-const widgets = [
-  IpAddressWidget,
-  SimpleCryptoPriceWidget,
-  AdviceWidget,
-  KanyeQuoteWidget,
-  PasswordinatorWidget,
-]
 
 const DashboardLoader = ({ className }) => {
   /** @type {[{id: string}]} */
