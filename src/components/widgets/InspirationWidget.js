@@ -13,7 +13,6 @@ const BaseWidget = ({ className }) => {
     (async () => {
       try {
         const resp = await fetch('https://inspiration.goprogram.ai')
-        console.log(resp)
         const json = await resp.json()
         setAdvice(json.quote)
         setIsLoading(false)
