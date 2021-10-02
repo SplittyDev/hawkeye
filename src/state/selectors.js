@@ -22,3 +22,11 @@ export const currentDashboardWidgetSelector = selector({
     return ModuleList.filter(module => widgets.includes(module.id))
   }
 })
+
+export const currentDashboardUnusedWidgetsSelector = selector({
+  key: 'currentDashboardUnusedWidgetsSelector',
+  get: ({ get }) => {
+    const dashboard = get(currentDashboardSelector)
+    return ModuleList.filter(module => !dashboard.widgets.includes(module.id))
+  }
+})

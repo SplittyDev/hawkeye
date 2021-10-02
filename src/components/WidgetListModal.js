@@ -4,10 +4,11 @@ import { cloneDeep, isNil } from "lodash"
 
 import ModuleList from './widgets'
 import Widget from './Widget'
-import { currentDashboardSelector, dashboardsState } from 'state'
+import { currentDashboardSelector, currentDashboardUnusedWidgetsSelector, dashboardsState } from 'state'
 
 const WidgetListModal = ({ className }) => {
   const [dashboards, setDashboards] = useRecoilState(dashboardsState)
+  const unusedWidgets = useRecoilValue(currentDashboardUnusedWidgetsSelector)
   const currentDashboard = useRecoilValue(currentDashboardSelector)
 
   const addWidget = widget => {
@@ -31,7 +32,7 @@ const WidgetListModal = ({ className }) => {
         Add a widget to your Dashboard
       </div>
       <div className="widgetContainer">
-        { ModuleList.map(module => (
+        { unusedWidgets.map(module => (
           <div key={module.id} className="widgetPreview" onClick={() => addWidget(module)}>
             <div className="inner">
               <Widget showActions={false} from={module} />
