@@ -2,11 +2,28 @@ import styled from 'styled-components'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { useCallback, useEffect, useState } from 'react'
 import { FiCheckSquare, FiEdit2, FiPlusSquare, FiTrash2, FiXSquare } from 'react-icons/fi'
+import { isNil, find, cloneDeep } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 
-import { dashboardsState, selectedDashboardState, DEFAULT_DASHBOARD_UUID } from 'state/atoms'
-import { isNil, find, cloneDeep } from 'lodash'
+import { dashboardsState, selectedDashboardState, DEFAULT_DASHBOARD_UUID } from 'state'
+import { DashboardPropType, StyledPropTypes } from 'customPropTypes'
 
+const DashboardCellPropTypes = {
+  dashboard: DashboardPropType.isRequired,
+}
+
+/**
+ * A cell representing an existing dashboard.
+ *
+ * @param {{
+ *    className: string,
+ *    dashboard: {
+ *      uuid: string,
+ *      name: string,
+ *      widgets: [string]
+ *    }
+ * }} param0
+ */
 const DashboardCell = ({ className, dashboard }) => {
   const [selectedDashboard, setSelectedDashboard] = useRecoilState(selectedDashboardState)
   const [dashboards, setDashboards] = useRecoilState(dashboardsState)
@@ -85,6 +102,8 @@ const DashboardCell = ({ className, dashboard }) => {
     </div>
   )
 }
+
+DashboardCell.propTypes = StyledPropTypes(DashboardCellPropTypes)
 
 const DashboardCellStyled = styled(DashboardCell)`
   display: flex;
@@ -165,6 +184,11 @@ const DashboardCellStyled = styled(DashboardCell)`
   }
 `
 
+DashboardCellStyled.propTypes = DashboardCellPropTypes
+
+/**
+ * A cell representing a non-existing dashboard.
+ */
 const NewDashboardCell = ({ className }) => {
   const [name, setName] = useState('Unnamed')
   const [isEditing, setIsEditing] = useState(false)
@@ -204,6 +228,8 @@ const NewDashboardCell = ({ className }) => {
     </div>
   )
 }
+
+NewDashboardCell.propTypes = StyledPropTypes({})
 
 const NewDashboardCellStyled = styled(NewDashboardCell)`
   display: flex;
@@ -250,6 +276,9 @@ const NewDashboardCellStyled = styled(NewDashboardCell)`
   }
 `
 
+/**
+ * A navigation row representing dashboards.
+ */
 const DashboardPicker = ({ className }) => {
   const dashboards = useRecoilValue(dashboardsState)
 
@@ -261,7 +290,11 @@ const DashboardPicker = ({ className }) => {
   )
 }
 
-export default styled(DashboardPicker)`
+DashboardPicker.propTypes = StyledPropTypes({})
+
+const StyledDashboardPicker = styled(DashboardPicker)`
 display: flex;
 flex-flow: row nowrap;
 `
+
+export default StyledDashboardPicker

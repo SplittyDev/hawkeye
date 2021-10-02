@@ -1,7 +1,13 @@
+/**
+ * Shared theme.
+ */
 const Common = {
   dashboardTitleFontSize: '2rem',
 }
 
+/**
+ * Light theme.
+ */
 export const LightTheme = {
   ...Common,
   pageBackgroundColor: 'hsl(0,0%,90%)',
@@ -15,6 +21,9 @@ export const LightTheme = {
   widgetTitleOpacity: .45,
 }
 
+/**
+ * Dark theme.
+ */
 export const DarkTheme = {
   ...Common,
   pageBackgroundColor: 'hsl(0,0%,0%)',

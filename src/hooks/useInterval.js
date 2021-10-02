@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react'
 
+/**
+ * A hook providing automanaged `setInterval/clearInterval` functionality.
+ */
 const useInterval = (callback, delay) => {
   const savedCallback = useRef(callback)
 

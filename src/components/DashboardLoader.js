@@ -3,9 +3,13 @@ import Masonry from 'react-masonry-css'
 import { useRecoilValue } from 'recoil'
 
 import Widget from './Widget'
-import { currentDashboardWidgetSelector } from 'state'
 import NewWidget from './NewWidget'
+import { currentDashboardWidgetSelector } from 'state'
+import { StyledPropTypes } from 'customPropTypes'
 
+/**
+ * A dashboard with widgets.
+ */
 const DashboardLoader = ({ className }) => {
   /** @type {[{id: string}]} */
   const currentDashboardWidgets = useRecoilValue(currentDashboardWidgetSelector)
@@ -21,6 +25,8 @@ const DashboardLoader = ({ className }) => {
     </div>
   )
 }
+
+DashboardLoader.propTypes = StyledPropTypes({})
 
 export default styled(DashboardLoader)`
 padding: .5rem 0;
