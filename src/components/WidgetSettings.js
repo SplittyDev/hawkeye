@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil'
 import { has, set, cloneDeep } from "lodash"
 
 import { widgetSettingsState } from 'state'
-import { WidgetOptionDefaultValuePropType, WidgetPropType } from 'customPropTypes'
+import { StyledPropTypes, WidgetOptionDefaultValuePropType, WidgetPropType } from 'customPropTypes'
 
 /**
  * A checkbox made for de/serializing its value with respect to the default value.
@@ -61,6 +61,10 @@ SerdeTextBox.propTypes = {
   deserialize: PropTypes.func.isRequired,
 }
 
+const WidgetSettingsPropTypes = {
+  widget: WidgetPropType.isRequired,
+}
+
 /**
  * Configuration dialog for widgets.
  *
@@ -113,6 +117,8 @@ const WidgetSettings = ({ className, widget }) => {
   )
 }
 
+WidgetSettings.propTypes = StyledPropTypes(WidgetSettingsPropTypes)
+
 const WidgetSettingsStyled = styled(WidgetSettings)`
   display: flex;
   flex-flow: column nowrap;
@@ -134,8 +140,6 @@ const WidgetSettingsStyled = styled(WidgetSettings)`
   }
 `
 
-WidgetSettingsStyled.propTypes = {
-  widget: WidgetPropType.isRequired,
-}
+WidgetSettingsStyled.propTypes = WidgetSettingsPropTypes
 
 export default WidgetSettingsStyled

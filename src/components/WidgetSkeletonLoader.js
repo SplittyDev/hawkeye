@@ -4,7 +4,13 @@ import { useState, useEffect, useCallback } from "react"
 
 import useInterval from "hooks/useInterval"
 import { isLoading } from "hooks/useSkeletonLoader"
-import { ChildrenPropType } from "customPropTypes"
+import { ChildrenPropType, StyledPropTypes } from "customPropTypes"
+
+const WidgetSkeletonLoaderPropTypes = {
+  children: ChildrenPropType.isRequired,
+  widgetId: PropTypes.string.isRequired,
+  lineCount: PropTypes.number,
+}
 
 /**
  * Animated skeleton loader for widgets.
@@ -47,6 +53,8 @@ const WidgetSkeletonLoader = ({ className, children, widgetId, lineCount }) => {
     </>
   )
 }
+
+WidgetSkeletonLoader.propTypes = StyledPropTypes(WidgetSkeletonLoaderPropTypes)
 
 const StyledWidgetSkeletonLoader = styled(WidgetSkeletonLoader)`
 display: flex;
@@ -92,11 +100,7 @@ animation-iteration-count: 1;
 }
 `
 
-StyledWidgetSkeletonLoader.propTypes = {
-  children: ChildrenPropType.isRequired,
-  widgetId: PropTypes.string.isRequired,
-  lineCount: PropTypes.number,
-}
+StyledWidgetSkeletonLoader.propTypes = WidgetSkeletonLoaderPropTypes
 
 StyledWidgetSkeletonLoader.defaultProps = {
   lineCount: 1,

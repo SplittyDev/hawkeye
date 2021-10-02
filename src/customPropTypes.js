@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
 
+export const StyledPropTypes = propTypes => ({ className: PropTypes.string.isRequired, ...propTypes })
+
 export const WidgetOptionDefaultValuePropType = PropTypes.oneOf([
   PropTypes.bool,
   PropTypes.string,

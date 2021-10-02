@@ -6,7 +6,11 @@ import { isNil, find, cloneDeep } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 
 import { dashboardsState, selectedDashboardState, DEFAULT_DASHBOARD_UUID } from 'state'
-import { DashboardPropType } from 'customPropTypes'
+import { DashboardPropType, StyledPropTypes } from 'customPropTypes'
+
+const DashboardCellPropTypes = {
+  dashboard: DashboardPropType.isRequired,
+}
 
 /**
  * A cell representing an existing dashboard.
@@ -99,6 +103,8 @@ const DashboardCell = ({ className, dashboard }) => {
   )
 }
 
+DashboardCell.propTypes = StyledPropTypes(DashboardCellPropTypes)
+
 const DashboardCellStyled = styled(DashboardCell)`
   display: flex;
   align-items: center;
@@ -178,9 +184,7 @@ const DashboardCellStyled = styled(DashboardCell)`
   }
 `
 
-DashboardCellStyled.propTypes = {
-  dashboard: DashboardPropType.isRequired,
-}
+DashboardCellStyled.propTypes = DashboardCellPropTypes
 
 /**
  * A cell representing a non-existing dashboard.
@@ -224,6 +228,8 @@ const NewDashboardCell = ({ className }) => {
     </div>
   )
 }
+
+NewDashboardCell.propTypes = StyledPropTypes({})
 
 const NewDashboardCellStyled = styled(NewDashboardCell)`
   display: flex;
@@ -283,6 +289,8 @@ const DashboardPicker = ({ className }) => {
     </div>
   )
 }
+
+DashboardPicker.propTypes = StyledPropTypes({})
 
 const StyledDashboardPicker = styled(DashboardPicker)`
 display: flex;

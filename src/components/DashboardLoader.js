@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil'
 import Widget from './Widget'
 import NewWidget from './NewWidget'
 import { currentDashboardWidgetSelector } from 'state'
+import { StyledPropTypes } from 'customPropTypes'
 
 /**
  * A dashboard with widgets.
@@ -24,6 +25,8 @@ const DashboardLoader = ({ className }) => {
     </div>
   )
 }
+
+DashboardLoader.propTypes = StyledPropTypes({})
 
 export default styled(DashboardLoader)`
 padding: .5rem 0;

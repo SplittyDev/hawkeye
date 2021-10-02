@@ -4,6 +4,7 @@ import { cloneDeep, isNil } from "lodash"
 
 import Widget from './Widget'
 import { currentDashboardSelector, currentDashboardUnusedWidgetsSelector, dashboardsState } from 'state'
+import { StyledPropTypes } from 'customPropTypes'
 
 /** A list of widgets not already added to the current dashboard. */
 const WidgetListModal = ({ className }) => {
@@ -43,6 +44,8 @@ const WidgetListModal = ({ className }) => {
     </div>
   )
 }
+
+WidgetListModal.propTypes = StyledPropTypes({})
 
 const StyledWidgetListModal = styled(WidgetListModal)`
   display: flex;

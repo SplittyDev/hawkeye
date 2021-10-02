@@ -1,6 +1,12 @@
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { ChildrenPropType } from 'customPropTypes'
+
+import { ChildrenPropType, StyledPropTypes } from 'customPropTypes'
+
+const PagePropTypes = {
+  injectClassName: PropTypes.string,
+  children: ChildrenPropType.isRequired,
+}
 
 /**
  * Page wrapper to ensure consistent page styling.
@@ -16,6 +22,8 @@ const Page = ({ className, injectClassName, children }) => {
   )
 }
 
+Page.propTypes = StyledPropTypes(PagePropTypes)
+
 const StyledPage = styled(Page)`
   width: 100vw;
   height: 100vh;
@@ -26,10 +34,7 @@ const StyledPage = styled(Page)`
   padding: .5rem;
 `
 
-StyledPage.propTypes = {
-  injectClassName: PropTypes.string,
-  children: ChildrenPropType.isRequired,
-}
+StyledPage.propTypes = PagePropTypes
 
 StyledPage.defaultProps = {
   injectClassName: '',

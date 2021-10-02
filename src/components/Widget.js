@@ -7,10 +7,10 @@ import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import WidgetSettings from './WidgetSettings'
-import { widgetSettingsState } from 'state'
-import { invokeAction } from 'hooks/useWidgetAction'
 import WidgetSkeletonLoader from './WidgetSkeletonLoader'
-import { WidgetPropType } from 'customPropTypes'
+import { widgetSettingsState } from 'state'
+import { StyledPropTypes, WidgetPropType } from 'customPropTypes'
+import { invokeAction } from 'hooks/useWidgetAction'
 
 /**
  * Assemble widget configuration from defaults and serialized values.
@@ -37,6 +37,11 @@ const buildOptions = ({ id, options }, serializedOptions) => {
     }
   }
   return params
+}
+
+const WidgetPropTypes = {
+  from: WidgetPropType.isRequired,
+  showActions: PropTypes.bool,
 }
 
 /**
@@ -81,6 +86,8 @@ const Widget = ({ className, from, showActions }) => {
     </div>
   )
 }
+
+Widget.propTypes = StyledPropTypes(WidgetPropTypes)
 
 const StyledWidget = styled(Widget)`
   padding: 1rem;
@@ -151,10 +158,7 @@ const StyledWidget = styled(Widget)`
   }
 `
 
-StyledWidget.propTypes = {
-  from: WidgetPropType.isRequired,
-  showActions: PropTypes.bool,
-}
+StyledWidget.propTypes = WidgetPropTypes
 
 StyledWidget.defaultProps = {
   showActions: true,

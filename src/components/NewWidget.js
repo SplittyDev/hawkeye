@@ -5,6 +5,7 @@ import { FiPlus } from "react-icons/fi"
 import { useState } from 'react'
 
 import WidgetListModal from './WidgetListModal'
+import { StyledPropTypes } from 'customPropTypes'
 
 /**
  * Component for adding a new widget to the current dashboard.
@@ -26,6 +27,8 @@ const NewWidget = ({ className }) => {
     </div>
   )
 }
+
+NewWidget.propTypes = StyledPropTypes({})
 
 const StyledNewWidget = styled(NewWidget)`
   padding: 1rem;
