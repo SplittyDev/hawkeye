@@ -5,6 +5,7 @@ import { cloneDeep, isNil } from "lodash"
 import Widget from './Widget'
 import { currentDashboardSelector, currentDashboardUnusedWidgetsSelector, dashboardsState } from 'state'
 
+/** A list of widgets not already added to the current dashboard. */
 const WidgetListModal = ({ className }) => {
   const [dashboards, setDashboards] = useRecoilState(dashboardsState)
   const unusedWidgets = useRecoilValue(currentDashboardUnusedWidgetsSelector)
@@ -43,7 +44,7 @@ const WidgetListModal = ({ className }) => {
   )
 }
 
-export default styled(WidgetListModal)`
+const StyledWidgetListModal = styled(WidgetListModal)`
   display: flex;
   flex-flow: column nowrap;
   height: 100%;
@@ -83,3 +84,5 @@ export default styled(WidgetListModal)`
     }
   }
 `
+
+export default StyledWidgetListModal

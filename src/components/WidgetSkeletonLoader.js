@@ -1,10 +1,18 @@
 import styled from "styled-components"
+import PropTypes from 'prop-types'
 import { useState, useEffect, useCallback } from "react"
 
 import useInterval from "hooks/useInterval"
 import { isLoading } from "hooks/useSkeletonLoader"
+import { ChildrenPropType } from "customPropTypes"
 
-const WidgetSkeletonLoader = ({ className, children, widgetId, lineCount = 1 }) => {
+/**
+ * Animated skeleton loader for widgets.
+ *
+ * Used automatically by the `Widget` component.
+ * Polls loading status from `useSkeletonLoader` registry.
+ */
+const WidgetSkeletonLoader = ({ className, children, widgetId, lineCount }) => {
   const [loading, setLoading] = useState(true)
 
   const poll = useCallback(() => {
@@ -40,7 +48,7 @@ const WidgetSkeletonLoader = ({ className, children, widgetId, lineCount = 1 }) 
   )
 }
 
-export default styled(WidgetSkeletonLoader)`
+const StyledWidgetSkeletonLoader = styled(WidgetSkeletonLoader)`
 display: flex;
 flex-flow: column nowrap;
 gap: .25rem;
@@ -83,3 +91,15 @@ animation-iteration-count: 1;
   }
 }
 `
+
+StyledWidgetSkeletonLoader.propTypes = {
+  children: ChildrenPropType.isRequired,
+  widgetId: PropTypes.string.isRequired,
+  lineCount: PropTypes.number,
+}
+
+StyledWidgetSkeletonLoader.defaultProps = {
+  lineCount: 1,
+}
+
+export default StyledWidgetSkeletonLoader

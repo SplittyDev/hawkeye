@@ -1,16 +1,20 @@
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import Rodal from "rodal"
 import { FiPlus } from "react-icons/fi"
 import { useState } from 'react'
 
 import WidgetListModal from './WidgetListModal'
 
+/**
+ * Component for adding a new widget to the current dashboard.
+ */
 const NewWidget = ({ className }) => {
   const [showWidgetSelector, setShowWidgetSelector] = useState(false)
 
   return (
     <div className={className}>
-      <Rodal className="modal" width={500} height={500} visible={showWidgetSelector} onClose={() => setShowWidgetSelector(false)}>
+      <Rodal className="modal" visible={showWidgetSelector} onClose={() => setShowWidgetSelector(false)}>
         <WidgetListModal />
       </Rodal>
       <div className="content">
@@ -23,7 +27,7 @@ const NewWidget = ({ className }) => {
   )
 }
 
-export default styled(NewWidget)`
+const StyledNewWidget = styled(NewWidget)`
   padding: 1rem;
   box-shadow: 0 0 .25rem 0 hsla(0,0%,0%,.1);
   border-radius: .25rem;
@@ -32,9 +36,27 @@ export default styled(NewWidget)`
   width: 100%;
   line-height: 1.25rem;
 
+  & .modal {
+    position: relative !important;
+  }
+
+  & .modal .rodal-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+
   & .modal .rodal-dialog {
+    position: absolute;
+    top: 1rem;
+    margin: 0 auto !important;
+    width: calc(max(300px, 60%)) !important;
+    height: 500px !important;
     background: ${ props => props.theme.modalBackgroundColor } !important;
     color: ${ props => props.theme.widgetForegroundColor } !important;
+    box-shadow: 0 0 .25rem .15rem ${props => props.theme.modalShadowColor};
   }
 
   & > .content {
@@ -64,3 +86,9 @@ export default styled(NewWidget)`
     }
   }
 `
+
+StyledNewWidget.propTypes = {
+  className: PropTypes.string,
+}
+
+export default StyledNewWidget

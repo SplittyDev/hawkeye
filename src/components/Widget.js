@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import Rodal from "rodal"
 import { isNil } from "lodash"
 import { FiSettings } from "react-icons/fi"
@@ -9,7 +10,21 @@ import WidgetSettings from './WidgetSettings'
 import { widgetSettingsState } from 'state'
 import { invokeAction } from 'hooks/useWidgetAction'
 import WidgetSkeletonLoader from './WidgetSkeletonLoader'
+import { WidgetPropType } from 'customPropTypes'
 
+/**
+ * Assemble widget configuration from defaults and serialized values.
+ *
+ * @param {{
+ *    id: string,
+ *    options: {
+ *      type: string,
+ *      defaultValue: any
+ *    }
+ *  }} param0
+ * @param serializedOptions {[object]}
+ * @returns {object}
+ */
 const buildOptions = ({ id, options }, serializedOptions) => {
   if (isNil(options)) return {}
   const params = id in serializedOptions ? { ...serializedOptions[id] } : {}
@@ -24,7 +39,11 @@ const buildOptions = ({ id, options }, serializedOptions) => {
   return params
 }
 
-const Widget = ({ className, from, showActions = true }) => {
+/**
+ * The widget renderer.
+ * Handles state mapping, configuration and rendering.
+ */
+const Widget = ({ className, from, showActions }) => {
   const [showSettings, setShowSettings] = useState(false)
   const widgetSettings = useRecoilValue(widgetSettingsState)
 
@@ -63,7 +82,7 @@ const Widget = ({ className, from, showActions = true }) => {
   )
 }
 
-export default styled(Widget)`
+const StyledWidget = styled(Widget)`
   padding: 1rem;
   box-shadow: 0 0 .25rem 0 hsla(0,0%,0%,.1);
   border-radius: .25rem;
@@ -131,3 +150,14 @@ export default styled(Widget)`
     border-radius: .25rem;
   }
 `
+
+StyledWidget.propTypes = {
+  from: WidgetPropType.isRequired,
+  showActions: PropTypes.bool,
+}
+
+StyledWidget.defaultProps = {
+  showActions: true,
+}
+
+export default StyledWidget

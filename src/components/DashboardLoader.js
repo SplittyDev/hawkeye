@@ -3,9 +3,12 @@ import Masonry from 'react-masonry-css'
 import { useRecoilValue } from 'recoil'
 
 import Widget from './Widget'
-import { currentDashboardWidgetSelector } from 'state'
 import NewWidget from './NewWidget'
+import { currentDashboardWidgetSelector } from 'state'
 
+/**
+ * A dashboard with widgets.
+ */
 const DashboardLoader = ({ className }) => {
   /** @type {[{id: string}]} */
   const currentDashboardWidgets = useRecoilValue(currentDashboardWidgetSelector)
