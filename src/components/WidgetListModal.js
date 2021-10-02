@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { cloneDeep, isNil } from "lodash"
 
-import ModuleList from './widgets'
 import Widget from './Widget'
 import { currentDashboardSelector, currentDashboardUnusedWidgetsSelector, dashboardsState } from 'state'
 
