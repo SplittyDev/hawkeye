@@ -34,7 +34,5 @@ export const useSkeletonLoader = widgetId => {
  * @returns {boolean}
  */
 export const isLoading = widgetId => {
-  if (!has(widgetLoadingRegistry, widgetId)) {
-    return false
-  } else return widgetLoadingRegistry[widgetId]
+  return !has(widgetLoadingRegistry, widgetId) ? false : widgetLoadingRegistry[widgetId];
 }
