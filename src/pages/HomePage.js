@@ -6,6 +6,7 @@ import Page from 'components/Page'
 import DashboardPicker from 'components/DashboardPicker'
 import DashboardLoader from 'components/DashboardLoader'
 import { themeState } from 'state';
+import { StyledPropTypes } from 'customPropTypes';
 
 const HomePage = ({ className }) => {
   const [theme, setTheme] = useRecoilState(themeState)
@@ -24,6 +25,8 @@ const HomePage = ({ className }) => {
     </Page>
   )
 }
+
+HomePage.propTypes = StyledPropTypes({})
 
 export default styled(HomePage)`
 & > .header {
