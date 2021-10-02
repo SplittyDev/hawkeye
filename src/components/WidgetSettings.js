@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil'
 import { has, set, cloneDeep } from "lodash"
 
 import { widgetSettingsState } from 'state'
-import { WidgetPropType } from 'customPropTypes'
+import { WidgetOptionDefaultValuePropType, WidgetPropType } from 'customPropTypes'
 
 /**
  * A checkbox made for de/serializing its value with respect to the default value.
@@ -29,7 +29,7 @@ export const SerdeCheckBox = ({ optionKey, defaultValue, serialize, deserialize 
 
 SerdeCheckBox.propTypes = {
   optionKey: PropTypes.string.isRequired,
-  defaultValue: PropTypes.any.isRequired,
+  defaultValue: WidgetOptionDefaultValuePropType.isRequired,
   serialize: PropTypes.func.isRequired,
   deserialize: PropTypes.func.isRequired,
 }
@@ -56,7 +56,7 @@ export const SerdeTextBox = ({ optionKey, defaultValue, serialize, deserialize }
 
 SerdeTextBox.propTypes = {
   optionKey: PropTypes.string.isRequired,
-  defaultValue: PropTypes.any.isRequired,
+  defaultValue: WidgetOptionDefaultValuePropType.isRequired,
   serialize: PropTypes.func.isRequired,
   deserialize: PropTypes.func.isRequired,
 }

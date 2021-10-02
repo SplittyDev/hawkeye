@@ -1,5 +1,10 @@
 import PropTypes from 'prop-types'
 
+export const WidgetOptionDefaultValuePropType = PropTypes.oneOf([
+  PropTypes.bool,
+  PropTypes.string,
+])
+
 export const WidgetPropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
@@ -7,7 +12,7 @@ export const WidgetPropType = PropTypes.shape({
   component: PropTypes.elementType.isRequired,
   options: PropTypes.shape({
     type: PropTypes.string.isRequired,
-    defaultValue: PropTypes.any,
+    defaultValue: WidgetOptionDefaultValuePropType,
   }),
   actions: PropTypes.shape({
     icon: PropTypes.elementType
