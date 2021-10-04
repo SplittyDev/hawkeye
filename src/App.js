@@ -15,7 +15,7 @@ const AppWrapper = ({ children }) => {
   const theme = useRecoilValue(themeState)
 
   return (
-    <ThemeProvider theme={theme === 'light' ? LightTheme : DarkTheme}>
+    <ThemeProvider theme={theme === 'dark' ? DarkTheme : LightTheme}>
       <Router>
         {children}
       </Router>
