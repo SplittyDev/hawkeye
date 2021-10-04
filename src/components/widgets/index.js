@@ -5,6 +5,7 @@ import KanyeQuoteWidget from './KanyeQuote'
 import InspirationWidget from './InspirationWidget'
 import PasswordinatorWidget from './PasswordinatorWidget'
 import SimpleCryptoPriceWidget from './SimpleCryptoPriceWidget'
+import CatWidget from './CatWidget'
 
 const ModuleList = [
   IpAddressWidget,
@@ -14,6 +15,7 @@ const ModuleList = [
   InspirationWidget,
   PasswordinatorWidget,
   SimpleCryptoPriceWidget,
+  CatWidget,
 ]
 
 export default ModuleList
