@@ -57,7 +57,7 @@ const Widget = ({ className, dashboardId, from, showActions }) => {
 
   const widgetOptions = buildOptions(from, widgetSettings)
 
-  const removeWidget = useCallback(_ => {
+  const removeWidget = useCallback(() => {
     // Clone dashboards since we can't operate on the frozen state
     const clonedDashboards = cloneDeep(dashboards)
     // Find the selected dashboard
