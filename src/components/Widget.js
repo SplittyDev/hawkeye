@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import WidgetSettings from './WidgetSettings'
 import WidgetSkeletonLoader from './WidgetSkeletonLoader'
-import { dashboardsState, selectedDashboardState, widgetSettingsState } from 'state'
+import { dashboardsState, widgetSettingsState } from 'state'
 import { StyledPropTypes, WidgetPropType } from 'customPropTypes'
 import { invokeAction } from 'hooks/useWidgetAction'
 
