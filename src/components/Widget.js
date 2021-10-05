@@ -40,6 +40,7 @@ const buildOptions = ({ id, options }, serializedOptions) => {
 }
 
 const WidgetPropTypes = {
+  dashboardId: PropTypes.string.isRequired,
   from: WidgetPropType.isRequired,
   showActions: PropTypes.bool,
 }
@@ -48,18 +49,19 @@ const WidgetPropTypes = {
  * The widget renderer.
  * Handles state mapping, configuration and rendering.
  */
-const Widget = ({ className, from, showActions }) => {
+const Widget = ({ className, dashboardId, from, showActions }) => {
   const [showSettings, setShowSettings] = useState(false)
   const widgetSettings = useRecoilValue(widgetSettingsState)
 
-  const selectedDashboardUuid = useRecoilValue(selectedDashboardState)
   const [dashboards, setDashboards] = useRecoilState(dashboardsState)
 
   const widgetOptions = buildOptions(from, widgetSettings)
 
   const removeWidget = useCallback(_ => {
+    // Clone dashboards, we can't operate on the frozen state
     const clonedDashboards = cloneDeep(dashboards)
-    const selectedDashboardIndex = findIndex(clonedDashboards, db => db.uuid === selectedDashboardUuid)
+    // Find the current dashboard
+    const selectedDashboardIndex = findIndex(clonedDashboards, db => db.uuid === dashboardId)
     if (isNil(selectedDashboardIndex)) return
     const selectedDashboard = clonedDashboards[selectedDashboardIndex]
     console.log(selectedDashboard)
@@ -67,7 +69,7 @@ const Widget = ({ className, from, showActions }) => {
     if (isNil(currentWidgetIndex)) return
     clonedDashboards[selectedDashboardIndex].widgets.splice(currentWidgetIndex, 1)
     setDashboards(clonedDashboards)
-  }, [from.id, selectedDashboardUuid, dashboards, setDashboards])
+  }, [from.id, dashboardId, dashboards, setDashboards])
 
   return (
     <div className={className}>

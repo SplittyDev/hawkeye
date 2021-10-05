@@ -36,7 +36,7 @@ const WidgetListModal = ({ className }) => {
         { unusedWidgets.map(module => (
           <div key={module.id} className="widgetPreview" onClick={() => addWidget(module)}>
             <div className="inner">
-              <Widget showActions={false} from={module} />
+              <Widget showActions={false} dashboardId={currentDashboard.uuid} from={module} />
             </div>
           </div>
         )) }
