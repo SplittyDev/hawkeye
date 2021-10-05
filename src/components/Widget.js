@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import Rodal from "rodal"
-import { isNil } from "lodash"
-import { FiSettings } from "react-icons/fi"
-import { useState } from 'react'
-import { useRecoilValue } from 'recoil'
+import { isNil, cloneDeep, findIndex } from "lodash"
+import { FiSettings, FiTrash2 } from "react-icons/fi"
+import { useCallback, useState } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import WidgetSettings from './WidgetSettings'
 import WidgetSkeletonLoader from './WidgetSkeletonLoader'
-import { widgetSettingsState } from 'state'
+import { dashboardsState, selectedDashboardState, widgetSettingsState } from 'state'
 import { StyledPropTypes, WidgetPropType } from 'customPropTypes'
 import { invokeAction } from 'hooks/useWidgetAction'
 
@@ -52,7 +52,22 @@ const Widget = ({ className, from, showActions }) => {
   const [showSettings, setShowSettings] = useState(false)
   const widgetSettings = useRecoilValue(widgetSettingsState)
 
+  const selectedDashboardUuid = useRecoilValue(selectedDashboardState)
+  const [dashboards, setDashboards] = useRecoilState(dashboardsState)
+
   const widgetOptions = buildOptions(from, widgetSettings)
+
+  const removeWidget = useCallback(_ => {
+    const clonedDashboards = cloneDeep(dashboards)
+    const selectedDashboardIndex = findIndex(clonedDashboards, db => db.uuid === selectedDashboardUuid)
+    if (isNil(selectedDashboardIndex)) return
+    const selectedDashboard = clonedDashboards[selectedDashboardIndex]
+    console.log(selectedDashboard)
+    const currentWidgetIndex = findIndex(selectedDashboard.widgets, w => w === from.id)
+    if (isNil(currentWidgetIndex)) return
+    clonedDashboards[selectedDashboardIndex].widgets.splice(currentWidgetIndex, 1)
+    setDashboards(clonedDashboards)
+  }, [from.id, selectedDashboardUuid, dashboards, setDashboards])
 
   return (
     <div className={className}>
@@ -75,6 +90,9 @@ const Widget = ({ className, from, showActions }) => {
                 <FiSettings onClick={() => setShowSettings(true)} />
               </div>
             ) }
+            <div className="removeWidget" onClick={removeWidget}>
+              <FiTrash2 />
+            </div>
           </div>
         )}
       </div>
