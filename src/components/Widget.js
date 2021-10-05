@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import Rodal from "rodal"
-import { isNil } from "lodash"
-import { FiSettings } from "react-icons/fi"
-import { useState } from 'react'
-import { useRecoilValue } from 'recoil'
+import { isNil, cloneDeep, findIndex } from "lodash"
+import { FiSettings, FiTrash2 } from "react-icons/fi"
+import { useCallback, useState } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import WidgetSettings from './WidgetSettings'
 import WidgetSkeletonLoader from './WidgetSkeletonLoader'
-import { widgetSettingsState } from 'state'
+import { dashboardsState, widgetSettingsState } from 'state'
 import { StyledPropTypes, WidgetPropType } from 'customPropTypes'
 import { invokeAction } from 'hooks/useWidgetAction'
 
@@ -40,6 +40,7 @@ const buildOptions = ({ id, options }, serializedOptions) => {
 }
 
 const WidgetPropTypes = {
+  dashboardId: PropTypes.string.isRequired,
   from: WidgetPropType.isRequired,
   showActions: PropTypes.bool,
 }
@@ -48,11 +49,30 @@ const WidgetPropTypes = {
  * The widget renderer.
  * Handles state mapping, configuration and rendering.
  */
-const Widget = ({ className, from, showActions }) => {
+const Widget = ({ className, dashboardId, from, showActions }) => {
   const [showSettings, setShowSettings] = useState(false)
   const widgetSettings = useRecoilValue(widgetSettingsState)
 
+  const [dashboards, setDashboards] = useRecoilState(dashboardsState)
+
   const widgetOptions = buildOptions(from, widgetSettings)
+
+  const removeWidget = useCallback(() => {
+    // Clone dashboards since we can't operate on the frozen state
+    const clonedDashboards = cloneDeep(dashboards)
+    // Find the selected dashboard
+    const selectedDashboardIndex = findIndex(clonedDashboards, db => db.uuid === dashboardId)
+    if (isNil(selectedDashboardIndex)) return
+    // Grab the selected dashboard object
+    const selectedDashboard = clonedDashboards[selectedDashboardIndex]
+    // Find the index of the current widget in the selected dashboard
+    const currentWidgetIndex = findIndex(selectedDashboard.widgets, w => w === from.id)
+    if (isNil(currentWidgetIndex)) return
+    // Remove the current widget from the selected dashboard
+    clonedDashboards[selectedDashboardIndex].widgets.splice(currentWidgetIndex, 1)
+    // Update dashboards
+    setDashboards(clonedDashboards)
+  }, [from.id, dashboardId, dashboards, setDashboards])
 
   return (
     <div className={className}>
@@ -65,16 +85,23 @@ const Widget = ({ className, from, showActions }) => {
           <div className="actions">
             { 'actions' in from && typeof from.actions === 'object' &&
               Object.entries(from.actions).map(([actionKey, action]) => (
-                <div className="action" key={`${from.id}-action-${actionKey}`} onClick={() => invokeAction(from.id, actionKey)}>
+                <div
+                  className="action"
+                  key={`${from.id}-action-${actionKey}`}
+                  role="button"
+                  onClick={() => invokeAction(from.id, actionKey)}>
                   <action.icon />
                 </div>
               ))
             }
             { 'options' in from && (
-              <div className="settings">
-                <FiSettings onClick={() => setShowSettings(true)} />
+              <div role="button" className="settings" onClick={() => setShowSettings(true)}>
+                <FiSettings />
               </div>
             ) }
+            <div role="button" className="removeWidget" onClick={removeWidget}>
+              <FiTrash2 />
+            </div>
           </div>
         )}
       </div>

@@ -4,13 +4,14 @@ import { useRecoilValue } from 'recoil'
 
 import Widget from './Widget'
 import NewWidget from './NewWidget'
-import { currentDashboardWidgetSelector } from 'state'
+import { currentDashboardWidgetSelector, currentDashboardSelector } from 'state'
 import { StyledPropTypes } from 'customPropTypes'
 
 /**
  * A dashboard with widgets.
  */
 const DashboardLoader = ({ className }) => {
+  const currentDashboard = useRecoilValue(currentDashboardSelector)
   /** @type {[{id: string}]} */
   const currentDashboardWidgets = useRecoilValue(currentDashboardWidgetSelector)
 
@@ -18,7 +19,7 @@ const DashboardLoader = ({ className }) => {
     <div className={className}>
       <Masonry breakpointCols={2} className="grid" columnClassName="grid--column">
         { currentDashboardWidgets.map(widget => (
-          <Widget key={widget.id} from={widget} />
+          <Widget key={widget.id} dashboardId={currentDashboard.uuid} from={widget} />
         )) }
         <NewWidget />
       </Masonry>
