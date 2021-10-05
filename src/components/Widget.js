@@ -58,16 +58,19 @@ const Widget = ({ className, dashboardId, from, showActions }) => {
   const widgetOptions = buildOptions(from, widgetSettings)
 
   const removeWidget = useCallback(_ => {
-    // Clone dashboards, we can't operate on the frozen state
+    // Clone dashboards since we can't operate on the frozen state
     const clonedDashboards = cloneDeep(dashboards)
-    // Find the current dashboard
+    // Find the selected dashboard
     const selectedDashboardIndex = findIndex(clonedDashboards, db => db.uuid === dashboardId)
     if (isNil(selectedDashboardIndex)) return
+    // Grab the selected dashboard object
     const selectedDashboard = clonedDashboards[selectedDashboardIndex]
-    console.log(selectedDashboard)
+    // Find the index of the current widget in the selected dashboard
     const currentWidgetIndex = findIndex(selectedDashboard.widgets, w => w === from.id)
     if (isNil(currentWidgetIndex)) return
+    // Remove the current widget from the selected dashboard
     clonedDashboards[selectedDashboardIndex].widgets.splice(currentWidgetIndex, 1)
+    // Update dashboards
     setDashboards(clonedDashboards)
   }, [from.id, dashboardId, dashboards, setDashboards])
 
