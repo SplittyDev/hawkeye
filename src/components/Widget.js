@@ -85,17 +85,21 @@ const Widget = ({ className, dashboardId, from, showActions }) => {
           <div className="actions">
             { 'actions' in from && typeof from.actions === 'object' &&
               Object.entries(from.actions).map(([actionKey, action]) => (
-                <div className="action" key={`${from.id}-action-${actionKey}`} onClick={() => invokeAction(from.id, actionKey)}>
+                <div
+                  className="action"
+                  key={`${from.id}-action-${actionKey}`}
+                  role="button"
+                  onClick={() => invokeAction(from.id, actionKey)}>
                   <action.icon />
                 </div>
               ))
             }
             { 'options' in from && (
-              <div className="settings">
-                <FiSettings onClick={() => setShowSettings(true)} />
+              <div role="button" className="settings" onClick={() => setShowSettings(true)}>
+                <FiSettings />
               </div>
             ) }
-            <div className="removeWidget" onClick={removeWidget}>
+            <div role="button" className="removeWidget" onClick={removeWidget}>
               <FiTrash2 />
             </div>
           </div>
