@@ -1,36 +1,33 @@
 import styled from 'styled-components'
 import { useCallback, useEffect, useState } from 'react'
-import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
 import { FiRefreshCw } from 'react-icons/fi'
-import { useWidgetAction } from 'hooks/useWidgetAction'
 
+import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
+import { useWidgetAction } from 'hooks/useWidgetAction'
 
 const WIDGET_ID = 'hwk_cat'
 const WIDGET_NAME = 'Cat'
 const WIDGET_TAGS = ['cat']
-const SmCatURL = 'https://cataas.com/cat/cat?type=small'
-const MdCatURL = 'https://cataas.com/cat/cat?type=medium'
+
 const ACTION_REFRESH = 'refresh'
 
-const CatWidget = ({ className, widgetOptions }) => {
-  const [urlSm, setUrlSm] = useState()
-  const [urlMd, setUrlMd] = useState()
+const API_CAT = 'https://cataas.com/cat'
+
+const CatWidget = ({ className }) => {
+  const [url, setUrl] = useState()
 
   const setIsLoading = useSkeletonLoader(WIDGET_ID)
 
-  const { smallCat, mediumCat } = widgetOptions;
-
   const newCat = useCallback(async () => {
-    setIsLoading(true)
-      const respSm = await fetch(SmCatURL)
-      const respMd = await fetch(MdCatURL)
-      const blob = await respSm.blob()
-      const blobMd = await respMd.blob()
+    try {
+      const resp = await fetch(API_CAT, {
+        cache: 'no-cache',
+      })
+      const blob = await resp.blob()
       const url = URL.createObjectURL(blob)
-      const MdUrl = URL.createObjectURL(blobMd)
-      setUrlSm(url)
-      setUrlMd(MdUrl)
+      setUrl(url)
       setIsLoading(false)
+    } catch {}
   }, [setIsLoading])
 
   useWidgetAction(WIDGET_ID, ACTION_REFRESH, newCat)
@@ -41,18 +38,37 @@ const CatWidget = ({ className, widgetOptions }) => {
 
   return (
     <div className={className}>
-    {smallCat &&  (<img className="smallCat" src={urlSm} alt='A small Cat img'/>)}
-      {mediumCat && (<img className="mediumCat" src={urlMd} alt='A medium Cat img'/>)}
+      {url && (
+        <>
+          <img className="blur" src={url} alt='A medium Cat img'/>
+          <img className="clean" src={url} alt='A medium Cat img'/>
+        </>
+      )}
     </div>
   )
 }
 
 const CatWidgetStyled = styled(CatWidget)`
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  border-radius: .25rem;
 
+  & img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 
-img{
-border-radius: .25rem ;
-}
+    &.clean {
+      object-fit: contain;
+    }
+
+    &.blur {
+      filter: blur(.5rem);
+    }
+  }
 `
 
 const WidgetDefinition = {
@@ -65,18 +81,6 @@ const WidgetDefinition = {
     }
   },
   component: CatWidgetStyled,
-  options: {
-    smallCat: {
-      name: 'Show small',
-      type: 'bool',
-      defaultValue: true
-    },
-    mediumCat: {
-      name: 'Show medium',
-      type: 'bool',
-      defaultValue: false
-    }
-  }
 }
 
 export default WidgetDefinition
