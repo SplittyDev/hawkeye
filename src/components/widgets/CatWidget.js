@@ -1,52 +1,82 @@
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
+import { FiRefreshCw } from 'react-icons/fi'
+import { useWidgetAction } from 'hooks/useWidgetAction'
+
 
 const WIDGET_ID = 'hwk_cat'
 const WIDGET_NAME = 'Cat'
 const WIDGET_TAGS = ['cat']
-const BASE_URL = 'https://cataas.com/cat'
+const SmCatURL = 'https://cataas.com/cat/cat?type=small'
+const MdCatURL = 'https://cataas.com/cat/cat?type=medium'
+const ACTION_REFRESH = 'refresh'
 
-const CatWidget = ({ className }) => {
-  const [url, setUrl] = useState()
+const CatWidget = ({ className, widgetOptions }) => {
+  const [urlSm, setUrlSm] = useState()
+  const [urlMd, setUrlMd] = useState()
+
   const setIsLoading = useSkeletonLoader(WIDGET_ID)
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true)
-      const resp = await fetch(BASE_URL)
-      const blob = await resp.blob()
+  const { smallCat, mediumCat } = widgetOptions;
+
+  const newCat = useCallback(async () => {
+    setIsLoading(true)
+      const respSm = await fetch(SmCatURL)
+      const respMd = await fetch(MdCatURL)
+      const blob = await respSm.blob()
+      const blobMd = await respMd.blob()
       const url = URL.createObjectURL(blob)
-      setUrl(url)
+      const MdUrl = URL.createObjectURL(blobMd)
+      setUrlSm(url)
+      setUrlMd(MdUrl)
       setIsLoading(false)
-    })()
   }, [setIsLoading])
+
+  useWidgetAction(WIDGET_ID, ACTION_REFRESH, newCat)
+
+  useEffect(() => {
+    newCat()
+  }, [newCat])
 
   return (
     <div className={className}>
-      <img src={url} alt='A Cat'/>
+    {smallCat &&  (<img className="smallCat" src={urlSm} alt='A small Cat img'/>)}
+      {mediumCat && (<img className="mediumCat" src={urlMd} alt='A medium Cat img'/>)}
     </div>
   )
 }
 
 const CatWidgetStyled = styled(CatWidget)`
-display: flex;
+
 
 img{
-  border: 1px solid white;
-  border-radius: .75rem ;
-  overflow: hidden;
-  width: 500px;
-  height: 400px;
+border-radius: .25rem ;
 }
 `
-
 
 const WidgetDefinition = {
   id: WIDGET_ID,
   name: WIDGET_NAME,
   tags: WIDGET_TAGS,
+  actions: {
+    [ACTION_REFRESH]: {
+      icon: FiRefreshCw
+    }
+  },
   component: CatWidgetStyled,
+  options: {
+    smallCat: {
+      name: 'Show small',
+      type: 'bool',
+      defaultValue: true
+    },
+    mediumCat: {
+      name: 'Show medium',
+      type: 'bool',
+      defaultValue: false
+    }
+  }
 }
 
 export default WidgetDefinition
