@@ -19,12 +19,16 @@ const IpAddressWidget = ({ className, widgetOptions }) => {
 
   const fetchIP = useCallback(async () => {
     setIsLoading(true)
-    const resp4 = await fetch('https://ipv4.icanhazip.com')
-    const resp6 = await fetch('https://ipv6.icanhazip.com')
-    const ipv4 = await resp4.text()
-    const ipv6 = await resp6.text()
-    setIpAddress4(ipv4)
-    setIpAddress6(ipv6)
+    try {
+      const resp4 = await fetch('https://ipv4.icanhazip.com')
+      const ipv4 = await resp4.text()
+      setIpAddress4(ipv4)
+    } catch {}
+    try {
+      const resp6 = await fetch('https://ipv6.icanhazip.com')
+      const ipv6 = await resp6.text()
+      setIpAddress6(ipv6)
+    } catch {}
     setIsLoading(false)
   }, [setIsLoading])
 
