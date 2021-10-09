@@ -8,7 +8,7 @@ export const DEFAULT_DASHBOARD_UUID = '4c3aabea-0d6c-4e4f-8073-17bd4194523e'
 const DEFAULT_DASHBOARD = {
   uuid: DEFAULT_DASHBOARD_UUID,
   name: 'Home',
-  widgets: []
+  widgets: {}
 }
 
 export const themeState = atom({

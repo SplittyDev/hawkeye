@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import Rodal from "rodal"
-import { isNil, cloneDeep, findIndex } from "lodash"
+import { isNil, cloneDeep, findIndex, get } from "lodash"
 import { FiSettings, FiTrash2 } from "react-icons/fi"
 import { useCallback, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import WidgetSettings from './WidgetSettings'
-import WidgetSkeletonLoader from './WidgetSkeletonLoader'
+import WidgetSettings from 'components/WidgetSettings'
+import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
 import { dashboardsState, widgetSettingsState } from 'state'
 import { StyledPropTypes, WidgetPropType } from 'customPropTypes'
 import { invokeAction } from 'hooks/useWidgetAction'
@@ -65,14 +65,15 @@ const Widget = ({ className, dashboardId, from, showActions }) => {
     if (isNil(selectedDashboardIndex)) return
     // Grab the selected dashboard object
     const selectedDashboard = clonedDashboards[selectedDashboardIndex]
-    // Find the index of the current widget in the selected dashboard
-    const currentWidgetIndex = findIndex(selectedDashboard.widgets, w => w === from.id)
-    if (isNil(currentWidgetIndex)) return
-    // Remove the current widget from the selected dashboard
-    clonedDashboards[selectedDashboardIndex].widgets.splice(currentWidgetIndex, 1)
+    // Find the array of instance ids for the current widget
+    const instanceIds = get(selectedDashboard.widgets, from.id)
+    if (isNil(instanceIds)) return
+    // Remove the current widget instance from the instance list
+    clonedDashboards[selectedDashboardIndex].widgets[from.id] = instanceIds
+      .filter(instanceId => instanceId !== from.instanceId)
     // Update dashboards
     setDashboards(clonedDashboards)
-  }, [from.id, dashboardId, dashboards, setDashboards])
+  }, [from, dashboardId, dashboards, setDashboards])
 
   return (
     <div className={className}>
@@ -107,7 +108,7 @@ const Widget = ({ className, dashboardId, from, showActions }) => {
       </div>
       <div className="content">
         <WidgetSkeletonLoader widgetId={from.id} lineCount={1}>
-          <from.component widgetOptions={widgetOptions} />
+          <from.component widgetOptions={widgetOptions} instance={from.instanceId} />
         </WidgetSkeletonLoader>
       </div>
     </div>
