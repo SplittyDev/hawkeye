@@ -6,6 +6,10 @@ import reportWebVitals from './reportWebVitals'
 import 'rodal/lib/rodal.css'
 import './index.css'
 
+import MigrationManager from 'migrations'
+
+MigrationManager.migrateToLatest()
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
