@@ -6,9 +6,9 @@ import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
 
 const WIDGET_ID = 'hwk_quote_of_the_day'
 
-const QuoteOfTheDayWidget = ({ className }) => {
+const QuoteOfTheDayWidget = ({ className, instance }) => {
   const [quote, setQuote] = useState(null)
-  const setIsLoading = useSkeletonLoader(WIDGET_ID)
+  const setIsLoading = useSkeletonLoader(instance)
 
   const fetchQuote = useCallback(async () => {
     try {

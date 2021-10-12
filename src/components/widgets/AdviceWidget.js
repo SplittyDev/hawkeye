@@ -2,11 +2,9 @@ import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-const WIDGET_ID = 'hwk_advice_slip'
-
-const AdviceWidget = ({ className }) => {
+const AdviceWidget = ({ className, instance }) => {
   const [advice, setAdvice] = useState(null)
-  const setIsLoading = useSkeletonLoader(WIDGET_ID)
+  const setIsLoading = useSkeletonLoader(instance)
 
   useEffect(() => {
     (async () => {
@@ -28,7 +26,7 @@ const AdviceWidgetStyled = styled(AdviceWidget)`
 `
 
 const WidgetDefinition = {
-  id: WIDGET_ID,
+  id: 'hwk_advice_slip',
   name: 'Random Advice',
   component: AdviceWidgetStyled,
   tags: ['quotes'],

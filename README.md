@@ -28,9 +28,9 @@ While the component is responsible for handling user-interaction and rendering, 
 Here's an example of a widget definition:
 ```js
 const WidgetDefinition = {
-  id: WIDGET_ID,
-  name: WIDGET_NAME,
-  tags: WIDGET_TAGS,
+  id: 'some_unique_widget_id',
+  name: 'Widget Display Name',
+  tags: ['some', 'keywords'],
   actions: {
     [ACTION_REFRESH]: {
       icon: FiRefreshCw, // from react-icons
@@ -76,11 +76,10 @@ export default WidgetDefinition
 ### Example
 
 ```js
-const WIDGET_ID = 'my_widget'
 const ACTION_REFRESH = 'refresh'
 
-const Widget = () => {
-  useWidgetAction(WIDGET_ID, ACTION_REFRESH, () => {
+const Widget = ({ instance }) => {
+  useWidgetAction(instance, ACTION_REFRESH, () => {
     // Do something on refresh
   })
 
@@ -90,7 +89,7 @@ const Widget = () => {
 }
 
 const WidgetDefinition = {
-  id: WIDGET_ID,
+  id: 'my_widget',
   tags: [],
   actions: {
     [ACTION_REFRESH]: {
@@ -107,10 +106,8 @@ export default WidgetDefinition
 > Widgets can use a loading animation while fetching data.
 
 ```js
-const WIDGET_ID = 'my_widget'
-
-const Widget = () => {
-  const setIsLoading = useSkeletonLoader(WIDGET_ID)
+const Widget = ({ instance }) => {
+  const setIsLoading = useSkeletonLoader(instance)
 
   useEffect(() => {
     setIsLoading(true)

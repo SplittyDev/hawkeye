@@ -1,5 +1,6 @@
 import ModuleList from 'components/widgets'
 import { selector } from 'recoil'
+import { has } from 'lodash'
 
 import { dashboardsState, DEFAULT_DASHBOARD_UUID, selectedDashboardState } from 'state'
 
@@ -18,15 +19,13 @@ export const currentDashboardSelector = selector({
 export const currentDashboardWidgetSelector = selector({
   key: 'currentDashboardWidgetSelector',
   get: ({ get }) => {
-    const { widgets } = get(currentDashboardSelector) || { widgets: [] }
-    return ModuleList.filter(module => widgets.includes(module.id))
-  }
-})
-
-export const currentDashboardUnusedWidgetsSelector = selector({
-  key: 'currentDashboardUnusedWidgetsSelector',
-  get: ({ get }) => {
-    const dashboard = get(currentDashboardSelector)
-    return ModuleList.filter(module => !dashboard.widgets.includes(module.id))
+    const { widgets } = get(currentDashboardSelector) || { widgets: {} }
+    const modules = []
+    for (const module of ModuleList.filter(module => has(widgets, module.id))) {
+      for (const instanceId of widgets[module.id]) {
+        modules.push({ ...module, instanceId })
+      }
+    }
+    return modules
   }
 })

@@ -104,10 +104,10 @@ const translateAssetAlias = assetName => {
 }
 
 // Widget Implementation
-const Widget = ({ className, widgetOptions }) => {
+const Widget = ({ className, instance, widgetOptions }) => {
   const [assets, setAssets] = useState([])
   const [coinInfo, setCoinInfo] = useState(null)
-  const setLoading = useSkeletonLoader(WIDGET_ID)
+  const setLoading = useSkeletonLoader(instance)
 
   const { assetName } = widgetOptions
 

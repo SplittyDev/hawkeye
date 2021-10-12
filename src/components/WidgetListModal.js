@@ -1,30 +1,37 @@
+// @flow
+
+import React from 'react'
 import styled from 'styled-components'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { cloneDeep, isNil } from "lodash"
+import { cloneDeep, isNil, get } from "lodash"
 
-import Widget from './Widget'
-import { currentDashboardSelector, currentDashboardUnusedWidgetsSelector, dashboardsState } from 'state'
+import Widget from 'components/Widget'
+import ModuleList from 'components/widgets'
+import { currentDashboardSelector, dashboardsState } from 'state'
 import { StyledPropTypes } from 'customPropTypes'
+import { WidgetHelper } from 'helpers'
 
 /** A list of widgets not already added to the current dashboard. */
 const WidgetListModal = ({ className }) => {
   const [dashboards, setDashboards] = useRecoilState(dashboardsState)
-  const unusedWidgets = useRecoilValue(currentDashboardUnusedWidgetsSelector)
   const currentDashboard = useRecoilValue(currentDashboardSelector)
 
   const addWidget = widget => {
     const clonedDashboards = cloneDeep(dashboards)
     const targetDashboardIndex = clonedDashboards.findIndex(db => db.uuid === currentDashboard.uuid)
-    if (!isNil(targetDashboardIndex) && !clonedDashboards[targetDashboardIndex].widgets.includes(widget.id)) {
-      clonedDashboards[targetDashboardIndex] = {
-        ...currentDashboard,
-        widgets: [
-          ...currentDashboard.widgets,
-          widget.id
+    const patchedWidget = WidgetHelper.patchWidgetInstanceId(widget)
+    if (isNil(targetDashboardIndex)) return
+    clonedDashboards[targetDashboardIndex] = {
+      ...currentDashboard,
+      widgets: {
+        ...currentDashboard.widgets,
+        [patchedWidget.id]: [
+          ...get(clonedDashboards[targetDashboardIndex].widgets, patchedWidget.id) ?? [],
+          patchedWidget.instanceId
         ]
       }
-      setDashboards(clonedDashboards)
     }
+    setDashboards(clonedDashboards)
   }
 
   return (
@@ -33,10 +40,10 @@ const WidgetListModal = ({ className }) => {
         Add a widget to your Dashboard
       </div>
       <div className="widgetContainer">
-        { unusedWidgets.map(module => (
+        { ModuleList.map(module => (
           <div key={module.id} className="widgetPreview" onClick={() => addWidget(module)}>
             <div className="inner">
-              <Widget showActions={false} dashboardId={currentDashboard.uuid} from={module} />
+              <Widget preview dashboardId={currentDashboard.uuid} from={module} />
             </div>
           </div>
         )) }
@@ -47,7 +54,7 @@ const WidgetListModal = ({ className }) => {
 
 WidgetListModal.propTypes = StyledPropTypes({})
 
-const StyledWidgetListModal = styled(WidgetListModal)`
+const StyledWidgetListModal: React$ComponentType<*> = styled(WidgetListModal)`
   display: flex;
   flex-flow: column nowrap;
   height: 100%;

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useRecoilValue, useRecoilState } from 'recoil'
+import { useRecoilValue, useRecoilState, type SetRecoilState } from 'recoil'
 import { useCallback, useEffect, useState } from 'react'
 import { FiCheckSquare, FiEdit2, FiPlusSquare, FiTrash2, FiXSquare } from 'react-icons/fi'
 import { isNil, find, cloneDeep } from 'lodash'
@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { dashboardsState, selectedDashboardState, DEFAULT_DASHBOARD_UUID } from 'state'
 import { DashboardPropType, StyledPropTypes } from 'customPropTypes'
+import type { TDashboard } from "types/TDashboard";
 
 const DashboardCellPropTypes = {
   dashboard: DashboardPropType.isRequired,
@@ -14,22 +15,17 @@ const DashboardCellPropTypes = {
 
 /**
  * A cell representing an existing dashboard.
- *
- * @param {{
- *    className: string,
- *    dashboard: {
- *      uuid: string,
- *      name: string,
- *      widgets: [string]
- *    }
- * }} param0
  */
-const DashboardCell = ({ className, dashboard }) => {
-  const [selectedDashboard, setSelectedDashboard] = useRecoilState(selectedDashboardState)
-  const [dashboards, setDashboards] = useRecoilState(dashboardsState)
-  const [name, setName] = useState(dashboard.name)
-  const [isEditing, setIsEditing] = useState(false)
-  const [isActive, setIsActive] = useState(false)
+type DashboardCellProps = {
+  className: string,
+  dashboard: TDashboard
+}
+const DashboardCell = ({ className, dashboard }: DashboardCellProps) => {
+  const [selectedDashboard, setSelectedDashboard]: [string, SetRecoilState] = useRecoilState(selectedDashboardState)
+  const [dashboards, setDashboards]: [TDashboard[], SetRecoilState] = useRecoilState(dashboardsState)
+  const [name, setName]: [string, SetRecoilState] = useState(dashboard.name)
+  const [isEditing, setIsEditing]: [boolean, SetRecoilState] = useState(false)
+  const [isActive, setIsActive]: [boolean, SetRecoilState] = useState(false)
 
   const handleDashboardSwitch = useCallback(() => {
     setSelectedDashboard(dashboard.uuid)
