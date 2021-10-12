@@ -74,15 +74,15 @@ const WidgetSettings = ({ className, widget }) => {
   const [widgetSettings, setWidgetSettings] = useRecoilState(widgetSettingsState)
 
   const serialize = (key, value) => {
-    const newValue = set(cloneDeep(widgetSettings), `${widget.id}.${key}`, value)
+    const newValue = set(cloneDeep(widgetSettings), `${widget.instanceId}.${key}`, value)
     setWidgetSettings(newValue)
   }
 
   const deserialize = (key, defaultValue) => {
-    if (!has(widgetSettings, `${widget.id}.${key}`)) {
+    if (!has(widgetSettings, `${widget.instanceId}.${key}`)) {
       return defaultValue;
     }
-    return widgetSettings[widget.id][key]
+    return widgetSettings[widget.instanceId][key]
   }
 
   return (
@@ -90,11 +90,11 @@ const WidgetSettings = ({ className, widget }) => {
       <div className="title">Settings for <span className="widgetName">{ widget.name }</span> widget</div>
       { Object.entries(widget?.options ?? {}).map(([key, { name = null, type = "invalid", defaultValue = null }]) => {
         return (
-          <div className="row" key={`${widget.id}-${key}`}>
+          <div className="row" key={`${widget.instanceId}-${key}`}>
             <div className="name">{ name ?? key }</div>
             { type === 'bool' && (
               <SerdeCheckBox
-                key={`${widget.id}-${key}`}
+                key={`${widget.instanceId}-${key}`}
                 optionKey={key}
                 defaultValue={!!defaultValue}
                 serialize={serialize}
@@ -103,7 +103,7 @@ const WidgetSettings = ({ className, widget }) => {
             )}
             { type === 'string' && (
               <SerdeTextBox
-                key={`${widget.id}-${key}`}
+                key={`${widget.instanceId}-${key}`}
                 optionKey={key}
                 defaultValue={defaultValue || ''}
                 serialize={serialize}

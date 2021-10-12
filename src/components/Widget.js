@@ -5,6 +5,7 @@ import { isNil, cloneDeep, findIndex, get } from "lodash"
 import { FiSettings, FiTrash2 } from "react-icons/fi"
 import { useCallback, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
+import { v4 as uuidv4 } from 'uuid'
 
 import WidgetSettings from 'components/WidgetSettings'
 import WidgetSkeletonLoader from 'components/WidgetSkeletonLoader'
@@ -12,11 +13,13 @@ import { dashboardsState, widgetSettingsState } from 'state'
 import { StyledPropTypes, WidgetPropType } from 'customPropTypes'
 import { invokeAction } from 'hooks/useWidgetAction'
 
+const previewUuid = uuidv4()
+
 /**
  * Assemble widget configuration from defaults and serialized values.
  *
  * @param {{
- *    id: string,
+ *    instanceId: string,
  *    options: {
  *      type: string,
  *      defaultValue: any
@@ -25,9 +28,9 @@ import { invokeAction } from 'hooks/useWidgetAction'
  * @param serializedOptions {[object]}
  * @returns {object}
  */
-const buildOptions = ({ id, options }, serializedOptions) => {
+const buildOptions = ({ instanceId, options }, serializedOptions) => {
   if (isNil(options)) return {}
-  const params = id in serializedOptions ? { ...serializedOptions[id] } : {}
+  const params = instanceId in serializedOptions ? { ...serializedOptions[instanceId] } : {}
   for (const [key, { type = "invalid", defaultValue = null }] of Object.entries(options)) {
     if (!(key in params)) {
       params[key] = defaultValue
@@ -49,9 +52,11 @@ const WidgetPropTypes = {
  * The widget renderer.
  * Handles state mapping, configuration and rendering.
  */
-const Widget = ({ className, dashboardId, from, showActions }) => {
+const Widget = ({ className, dashboardId, from, preview }) => {
   const [showSettings, setShowSettings] = useState(false)
   const widgetSettings = useRecoilValue(widgetSettingsState)
+
+  const instanceId = preview ? previewUuid : from.instanceId
 
   const [dashboards, setDashboards] = useRecoilState(dashboardsState)
 
@@ -82,15 +87,15 @@ const Widget = ({ className, dashboardId, from, showActions }) => {
       </Rodal>
       <div className="header">
         <div className="name">{from.name}</div>
-        { showActions && (
+        { !preview && (
           <div className="actions">
             { 'actions' in from && typeof from.actions === 'object' &&
               Object.entries(from.actions).map(([actionKey, action]) => (
                 <div
                   className="action"
-                  key={`${from.id}-action-${actionKey}`}
+                  key={`${from.instanceId}-action-${actionKey}`}
                   role="button"
-                  onClick={() => invokeAction(from.id, actionKey)}>
+                  onClick={() => invokeAction(from.instanceId, actionKey)}>
                   <action.icon />
                 </div>
               ))
@@ -107,8 +112,10 @@ const Widget = ({ className, dashboardId, from, showActions }) => {
         )}
       </div>
       <div className="content">
-        <WidgetSkeletonLoader widgetId={from.id} lineCount={1}>
-          <from.component widgetOptions={widgetOptions} instance={from.instanceId} />
+        <WidgetSkeletonLoader instanceId={instanceId} lineCount={1}>
+          {instanceId && (
+            <from.component widgetOptions={widgetOptions} instance={instanceId} />
+          )}
         </WidgetSkeletonLoader>
       </div>
     </div>
@@ -189,7 +196,7 @@ const StyledWidget = styled(Widget)`
 StyledWidget.propTypes = WidgetPropTypes
 
 StyledWidget.defaultProps = {
-  showActions: true,
+  preview: false,
 }
 
 export default StyledWidget

@@ -18,19 +18,19 @@ const WidgetSkeletonLoaderPropTypes = {
  * Used automatically by the `Widget` component.
  * Polls loading status from `useSkeletonLoader` registry.
  */
-const WidgetSkeletonLoader = ({ className, children, widgetId, lineCount }) => {
+const WidgetSkeletonLoader = ({ className, children, instanceId, lineCount }) => {
   const [loading, setLoading] = useState(true)
 
   const poll = useCallback(() => {
-    const currentValue = isLoading(widgetId)
+    const currentValue = isLoading(instanceId)
     if (loading !== currentValue) {
       setLoading(currentValue)
     }
-  }, [loading, widgetId])
+  }, [loading, instanceId])
 
   useEffect(() => {
-    setLoading(isLoading(widgetId))
-  }, [widgetId])
+    setLoading(isLoading(instanceId))
+  }, [instanceId])
 
   useInterval(poll, 500)
 

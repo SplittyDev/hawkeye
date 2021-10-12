@@ -43,7 +43,7 @@ const WidgetListModal = ({ className }) => {
         { ModuleList.map(module => (
           <div key={module.id} className="widgetPreview" onClick={() => addWidget(module)}>
             <div className="inner">
-              <Widget showActions={false} dashboardId={currentDashboard.uuid} from={module} />
+              <Widget preview dashboardId={currentDashboard.uuid} from={module} />
             </div>
           </div>
         )) }
