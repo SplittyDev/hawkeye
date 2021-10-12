@@ -1,38 +1,42 @@
-import { has, isNil } from 'lodash'
 import { useEffect, useCallback } from 'react'
+import { validate as validateUuid } from 'uuid'
+import { has, isNil } from 'lodash'
 
 const widgetLoadingRegistry = {}
 
 /**
  * A hook providing automanaged skeleton-loading support.
  *
- * @param widgetId {string}
+ * @param instanceId {string}
  * @returns {(newValue: boolean) => void}
  */
-export const useSkeletonLoader = widgetId => {
+export const useSkeletonLoader = instanceId => {
   const updateFn = useCallback(newValue => {
-    widgetLoadingRegistry[widgetId] = newValue
-  }, [widgetId])
+    widgetLoadingRegistry[instanceId] = newValue
+  }, [instanceId])
 
-  if (isNil(widgetId)) {
-    throw new Error('The `widgetId` parameter MUST be specified for `useSkeletonLoader`.')
+  if (isNil(instanceId)) {
+    throw new Error('The `instanceId` parameter MUST be specified for `useSkeletonLoader`.')
   }
 
   useEffect(() => {
-    if (!has(widgetLoadingRegistry, widgetId)) {
-      widgetLoadingRegistry[widgetId] = true
+    if (!validateUuid(instanceId)) {
+      throw new Error(`The supplied instanceId (${instanceId}) is NOT a valid instance identifier. Did you supply the widgetId by accident?`)
     }
-  }, [widgetId])
+    if (!has(widgetLoadingRegistry, instanceId)) {
+      widgetLoadingRegistry[instanceId] = true
+    }
+  }, [instanceId])
 
   return updateFn
 }
 
 /**
- * Check whether the given `widgetId` is currently loading.
+ * Check whether the given `instanceId` is currently loading.
  *
- * @param widgetId {string}
+ * @param instanceId {string}
  * @returns {boolean}
  */
-export const isLoading = widgetId => {
-  return !has(widgetLoadingRegistry, widgetId) ? false : widgetLoadingRegistry[widgetId];
+export const isLoading = instanceId => {
+  return !has(widgetLoadingRegistry, instanceId) ? false : widgetLoadingRegistry[instanceId];
 }
