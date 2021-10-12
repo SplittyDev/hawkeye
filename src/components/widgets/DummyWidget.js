@@ -14,12 +14,12 @@ const WIDGET_TAGS = ['dummy']
 const ACTION_REFRESH = 'refresh'
 
 // Widget Implementation
-const Widget = ({ className, widgetOptions }) => {
+const Widget = ({ className, instance, widgetOptions }) => {
   const { isEnabled } = widgetOptions
 
-  const setIsLoading = useSkeletonLoader(WIDGET_ID)
+  const setIsLoading = useSkeletonLoader(instance)
 
-  useWidgetAction(WIDGET_ID, ACTION_REFRESH, () => {
+  useWidgetAction(instance, ACTION_REFRESH, () => {
     // Do something on refresh
   })
 

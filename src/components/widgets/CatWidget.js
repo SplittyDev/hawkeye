@@ -5,18 +5,14 @@ import { FiRefreshCw } from 'react-icons/fi'
 import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
 import { useWidgetAction } from 'hooks/useWidgetAction'
 
-const WIDGET_ID = 'hwk_cat'
-const WIDGET_NAME = 'Cat'
-const WIDGET_TAGS = ['cat']
-
 const ACTION_REFRESH = 'refresh'
 
 const API_CAT = 'https://cataas.com/cat'
 
-const CatWidget = ({ className }) => {
+const CatWidget = ({ className, instance }) => {
   const [url, setUrl] = useState()
 
-  const setIsLoading = useSkeletonLoader(WIDGET_ID)
+  const setIsLoading = useSkeletonLoader(instance)
 
   const newCat = useCallback(async () => {
     try {
@@ -30,7 +26,7 @@ const CatWidget = ({ className }) => {
     } catch {}
   }, [setIsLoading])
 
-  useWidgetAction(WIDGET_ID, ACTION_REFRESH, newCat)
+  useWidgetAction(instance, ACTION_REFRESH, newCat)
 
   useEffect(() => {
     newCat()
@@ -72,9 +68,9 @@ const CatWidgetStyled = styled(CatWidget)`
 `
 
 const WidgetDefinition = {
-  id: WIDGET_ID,
-  name: WIDGET_NAME,
-  tags: WIDGET_TAGS,
+  id: 'hwk_cat',
+  name: 'Cat',
+  tags: ['cat', 'animal'],
   actions: {
     [ACTION_REFRESH]: {
       icon: FiRefreshCw

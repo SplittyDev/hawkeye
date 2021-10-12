@@ -9,11 +9,11 @@ const WIDGET_ID = 'hwk_ip_address'
 
 const ACTION_REFRESH = 'refresh'
 
-const IpAddressWidget = ({ className, widgetOptions }) => {
+const IpAddressWidget = ({ className, instance, widgetOptions }) => {
   const [ipAddress4, setIpAddress4] = useState(null)
   const [ipAddress6, setIpAddress6] = useState(null)
 
-  const setIsLoading = useSkeletonLoader(WIDGET_ID)
+  const setIsLoading = useSkeletonLoader(instance)
 
   const { enableIPv4, enableIPv6 } = widgetOptions;
 
@@ -32,7 +32,7 @@ const IpAddressWidget = ({ className, widgetOptions }) => {
     setIsLoading(false)
   }, [setIsLoading])
 
-  useWidgetAction(WIDGET_ID, ACTION_REFRESH, fetchIP)
+  useWidgetAction(instance, ACTION_REFRESH, fetchIP)
 
   useEffect(() => {
     fetchIP()

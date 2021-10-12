@@ -5,9 +5,9 @@ import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
 
 const WIDGET_ID = 'hwk_kanye_quote'
 
-const BaseWidget = ({ className }) => {
+const BaseWidget = ({ className, instance }) => {
   const [advice, setAdvice] = useState(null)
-  const setIsLoading = useSkeletonLoader(WIDGET_ID)
+  const setIsLoading = useSkeletonLoader(instance)
 
   useEffect(() => {
     (async () => {
