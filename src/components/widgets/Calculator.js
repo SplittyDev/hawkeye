@@ -1,23 +1,17 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 
-// import { useWidgetAction } from 'hooks/useWidgetAction'
 import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
-
 
 const WIDGET_ID = 'hwk_calculator'
 const WIDGET_NAME = 'Calculator'
 const WIDGET_TAGS = ['calculator']
 
-
-// const ACTION_REFRESH = 'refresh'
-
-
-const Widget = ({ className }) => {
+const Widget = ({ className, instance }) => {
   const [formula, setFormula] = useState('')
   const [result, setResult] = useState(null)
 
-  const setIsLoading = useSkeletonLoader(WIDGET_ID)
+  const setIsLoading = useSkeletonLoader(instance)
 
   const sanitize = text => {
     // (sqrt|pow|a?(?:sin|cos|tan)|pi|PI|e|E|log(?:10)?|\d+|[+-*/]|\s+)*(.*?)
@@ -41,10 +35,7 @@ const Widget = ({ className }) => {
     }
   }, [formula])
 
-
-
   useEffect(() => {
-
     setIsLoading(false)
   }, [setIsLoading])
 
@@ -56,9 +47,15 @@ const Widget = ({ className }) => {
   )
 }
 
-
 const WidgetStyled = styled(Widget)`
-
+  & input {
+    outline: none;
+    appearance: none;
+    border: 1px solid black;
+    border-radius: .25rem;
+    font-size: medium;
+    background-color: hsla(0,0%,0%,5%);
+  }
 `
 
 const WidgetDefinition = {
@@ -67,6 +64,5 @@ const WidgetDefinition = {
   tags: WIDGET_TAGS,
   component: WidgetStyled
 }
-
 
 export default WidgetDefinition
