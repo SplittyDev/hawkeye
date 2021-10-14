@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { get, set, isNil } from 'lodash'
-import { validate as validateUuid } from 'uuid'
 
 const widgetStateRegistry = {}
 
@@ -11,15 +10,18 @@ type StateUpdater<T> = (valueOrUpdater: ValueOrUpdater<T>) => void
  * A hook for managing widget state across context switches.
  */
 export const useWidgetState = <T>(instanceId: string, ref: string, defaultValue: T): [T, StateUpdater<T>] => {
-  const recentValue = get(widgetStateRegistry, `${instanceId}.${ref}`) ?? defaultValue ?? null
+  const instanceKey = useRef(`${instanceId}.${ref}`)
+  const recentValue = get(widgetStateRegistry, instanceKey.current) ?? defaultValue ?? null
   const [internalState, setInternalState] = useState(recentValue)
 
   // Restore state from state registry
   useEffect(() => {
-    const storedValue = get(widgetStateRegistry, `${instanceId}.${ref}`)
+    const newInstanceKey = `${instanceId}.${ref}`
+    const storedValue = get(widgetStateRegistry, instanceKey.current)
     if (!isNil(storedValue)) {
       setInternalState(storedValue)
     }
+    instanceKey.current = newInstanceKey
   }, [instanceId, ref])
 
   const setState = useCallback((valueOrUpdater: ValueOrUpdater<T>) => {
@@ -30,7 +32,7 @@ export const useWidgetState = <T>(instanceId: string, ref: string, defaultValue:
     } else {
       value = valueOrUpdater as T
     }
-    set(widgetStateRegistry, `${instanceId}.${ref}`, value)
+    set(widgetStateRegistry, instanceKey.current, value)
     setInternalState(value)
   }, [instanceId, ref])
 
