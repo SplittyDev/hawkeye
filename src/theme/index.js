@@ -19,6 +19,8 @@ export const LightTheme = {
   widgetForegroundColor: 'hsl(0,0%,5%)',
   widgetShineColor: 'hsl(0,0%,10%)',
   widgetTitleOpacity: .45,
+  widgetInputBackgroundColor: 'hsl(0,0%,95%)',
+  widgetInputForegroundColor: 'hsl(0,0%,5%)',
 }
 
 /**
@@ -35,4 +37,6 @@ export const DarkTheme = {
   widgetForegroundColor: 'hsl(0,0%,90%)',
   widgetShineColor: 'hsl(0,0%,100%)',
   widgetTitleOpacity: .5,
+  widgetInputBackgroundColor: 'hsl(0,0%,20%)',
+  widgetInputForegroundColor: 'hsl(0,0%,90%)',
 }

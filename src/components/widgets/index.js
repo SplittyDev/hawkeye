@@ -6,6 +6,7 @@ import InspirationWidget from './InspirationWidget'
 import PasswordinatorWidget from './PasswordinatorWidget'
 import SimpleCryptoPriceWidget from './SimpleCryptoPriceWidget'
 import CatWidget from './CatWidget'
+import Calculator from './Calculator.js'
 
 const ModuleList = [
   IpAddressWidget,
@@ -16,6 +17,7 @@ const ModuleList = [
   PasswordinatorWidget,
   SimpleCryptoPriceWidget,
   CatWidget,
+  Calculator,
 ]
 
 export default ModuleList
