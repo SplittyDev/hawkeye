@@ -19,7 +19,7 @@ const DashboardLoader = ({ className }) => {
     <div className={className}>
       <Masonry breakpointCols={2} className="grid" columnClassName="grid--column">
         { currentDashboardWidgets.map(widget => (
-          <Widget key={widget.id} dashboardId={currentDashboard.uuid} from={widget} />
+          <Widget key={widget.instanceId} dashboardId={currentDashboard.uuid} from={widget} />
         )) }
         <NewWidget />
       </Masonry>
