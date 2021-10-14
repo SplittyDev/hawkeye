@@ -1,11 +1,14 @@
 // @flow
 
+import { isNil } from 'lodash'
+
+// $FlowFixMe
+import { validate as isUuid } from 'uuid'
+
 import MigrationManager from 'migrations/MigrationManager'
 import ModuleList from 'components/widgets'
 import { WidgetHelper } from 'helpers'
-import { isNil } from 'lodash'
-import { validate as isUuid } from 'uuid'
-import type { TWidget } from "../types/TWidget";
+import type { TWidget } from "../types/TWidget"
 
 type TAnyDict = {
   [key: string]: any
