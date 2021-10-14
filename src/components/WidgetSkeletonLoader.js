@@ -2,7 +2,7 @@ import styled from "styled-components"
 import PropTypes from 'prop-types'
 import { useState, useEffect, useCallback } from "react"
 
-import useInterval from "hooks/useInterval"
+import { useInterval } from "hooks"
 import { isLoading } from "hooks/useSkeletonLoader"
 import { ChildrenPropType, StyledPropTypes } from "customPropTypes"
 
