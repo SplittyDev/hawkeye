@@ -10,7 +10,7 @@ const Widget = ({ className, instance }) => {
   const [result, setResult] = useState(null)
 
   const sanitize = text => {
-    return /^(sqrt|pow|a?(?:sin|cos|tan)|pi|PI|e|E|log(?:10)?|\d+|[\+\-\*\/(),]*|\s+)*$/.test(text)
+    return /^(sqrt|pow|a?(?:sin|cos|tan)|pi|PI|e|E|log(?:10)|\d|[+\-*/(),.]|\s)*$/.test(text)
   }
 
   useEffect(() => {
@@ -21,6 +21,7 @@ const Widget = ({ className, instance }) => {
     `
     try {
       if (sanitize(formula)) {
+        /* eslint no-eval: 0 */
         setResult(eval(preamble + formula))
       } else {
         setResult('ERROR')
