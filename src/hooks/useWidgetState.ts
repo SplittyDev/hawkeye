@@ -34,7 +34,7 @@ export const useWidgetState = <T>(instanceId: string, ref: string, defaultValue:
     }
     set(widgetStateRegistry, instanceKey.current, value)
     setInternalState(value)
-  }, [instanceId, ref])
+  }, [internalState])
 
   return [internalState, setState]
 }
