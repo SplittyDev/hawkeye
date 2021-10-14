@@ -1,9 +1,8 @@
 import styled from 'styled-components'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import { pick, lowerCase, get, has, find, isNil } from 'lodash'
 
-import useInterval from 'hooks/useInterval'
-import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
+import { useInterval, useSkeletonLoader, useWidgetState } from 'hooks'
 
 // Widget Configuration
 const WIDGET_ID = 'hwk_simple_crypto_price'
@@ -105,8 +104,8 @@ const translateAssetAlias = assetName => {
 
 // Widget Implementation
 const Widget = ({ className, instance, widgetOptions }) => {
-  const [assets, setAssets] = useState([])
-  const [coinInfo, setCoinInfo] = useState(null)
+  const [assets, setAssets] = useWidgetState(WIDGET_ID, '@assets', [])
+  const [coinInfo, setCoinInfo] = useWidgetState(instance, '@coinInfo', null)
   const setLoading = useSkeletonLoader(instance)
 
   const { assetName } = widgetOptions
@@ -125,9 +124,9 @@ const Widget = ({ className, instance, widgetOptions }) => {
       setAssets(assets)
       setLoading(false)
     } catch {}
-  }, [setLoading])
+  }, [setAssets, setLoading])
 
-  const updateCoinInfo = (assets, assetName) => {
+  const updateCoinInfo = useCallback((assets, assetName) => {
     const properAssetName = translateAssetAlias(assetName)
     const asset = find(assets, asset => {
       const lowerAssetName = lowerCase(assetName)
@@ -142,17 +141,19 @@ const Widget = ({ className, instance, widgetOptions }) => {
     if (!isNil(asset)) {
       setCoinInfo(asset)
     }
-  }
+  }, [setCoinInfo])
 
   useEffect(() => {
-    fetchAssets()
-  }, [fetchAssets])
+    if (assets === null) {
+      fetchAssets()
+    }
+  }, [assets, fetchAssets])
 
   useInterval(fetchAssets, 5000)
 
   useEffect(() => {
     updateCoinInfo(assets, assetName)
-  }, [assets, assetName])
+  }, [updateCoinInfo, assets, assetName])
 
   return (
     <div className={className}>
