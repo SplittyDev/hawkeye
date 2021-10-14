@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 
-import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
-
 const WIDGET_ID = 'hwk_calculator'
 const WIDGET_NAME = 'Calculator'
 const WIDGET_TAGS = ['calculator']
@@ -11,10 +9,7 @@ const Widget = ({ className, instance }) => {
   const [formula, setFormula] = useState('')
   const [result, setResult] = useState(null)
 
-  const setIsLoading = useSkeletonLoader(instance)
-
   const sanitize = text => {
-    // (sqrt|pow|a?(?:sin|cos|tan)|pi|PI|e|E|log(?:10)?|\d+|[+-*/]|\s+)*(.*?)
     return /^(sqrt|pow|a?(?:sin|cos|tan)|pi|PI|e|E|log(?:10)?|\d+|[\+\-\*\/(),]*|\s+)*$/.test(text)
   }
 
@@ -31,30 +26,45 @@ const Widget = ({ className, instance }) => {
         setResult('ERROR')
       }
     } catch {
-      setResult(null)
+      setResult('ERROR')
     }
   }, [formula])
 
-  useEffect(() => {
-    setIsLoading(false)
-  }, [setIsLoading])
-
   return (
     <div className={className}>
-        <input type='text' placeholder='Calculate here' value={formula} onInput={e => setFormula(e.target.value)} />
-        {result && <div>{result}</div>}
+        <input type='text' placeholder='pi / 2' value={formula} onInput={e => setFormula(e.target.value)} />
+        {result && (
+          <div className='result'>
+            <span>=</span>
+            <div>{result}</div>
+          </div>
+        )}
     </div>
   )
 }
 
 const WidgetStyled = styled(Widget)`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  & .result {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-left: 1rem;
+  }
+
   & input {
+    flex-grow: 1;
+    padding: .25rem .5rem;
     outline: none;
     appearance: none;
-    border: 1px solid black;
+    border: 1px solid ${props => props.theme.widgetForegroundColor};
     border-radius: .25rem;
     font-size: medium;
-    background-color: hsla(0,0%,0%,5%);
+    background-color: ${props => props.theme.widgetInputBackgroundColor};
+    color: ${props => props.theme.widgetInputForegroundColor};
   }
 `
 
