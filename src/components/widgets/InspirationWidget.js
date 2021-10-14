@@ -1,15 +1,17 @@
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
-import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
+import { useEffect } from 'react'
+
+import { useSkeletonLoader, useWidgetState } from 'hooks'
 
 const WIDGET_ID = 'hwk_inspiration'
 
 const BaseWidget = ({ className, instance }) => {
-  const [advice, setAdvice] = useState(null)
+  const [advice, setAdvice] = useWidgetState(instance, '@advice', null)
 
   const setIsLoading = useSkeletonLoader(instance)
 
   useEffect(() => {
+    if (advice !== null) return
     (async () => {
       try {
         const resp = await fetch('https://inspiration.goprogram.ai')
@@ -18,7 +20,7 @@ const BaseWidget = ({ className, instance }) => {
         setIsLoading(false)
       } catch { }
     })()
-  }, [setIsLoading])
+  }, [advice, setAdvice, setIsLoading])
 
   return (
     <div className={className}>
