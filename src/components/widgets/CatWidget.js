@@ -1,16 +1,15 @@
 import styled from 'styled-components'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { FiRefreshCw } from 'react-icons/fi'
 
-import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
-import { useWidgetAction } from 'hooks/useWidgetAction'
+import { useSkeletonLoader, useWidgetAction, useWidgetState } from 'hooks'
 
 const ACTION_REFRESH = 'refresh'
 
 const API_CAT = 'https://cataas.com/cat'
 
 const CatWidget = ({ className, instance }) => {
-  const [url, setUrl] = useState()
+  const [url, setUrl] = useWidgetState(instance, '@url', null)
 
   const setIsLoading = useSkeletonLoader(instance)
 
@@ -24,13 +23,15 @@ const CatWidget = ({ className, instance }) => {
       setUrl(url)
       setIsLoading(false)
     } catch {}
-  }, [setIsLoading])
+  }, [setIsLoading, setUrl])
 
   useWidgetAction(instance, ACTION_REFRESH, newCat)
 
   useEffect(() => {
-    newCat()
-  }, [newCat])
+    if (url === null) {
+      newCat()
+    }
+  }, [newCat, url])
 
   return (
     <div className={className}>

@@ -1,13 +1,15 @@
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+
+import { useWidgetState } from 'hooks'
 
 const WIDGET_ID = 'hwk_calculator'
 const WIDGET_NAME = 'Calculator'
 const WIDGET_TAGS = ['calculator']
 
 const Widget = ({ className, instance }) => {
-  const [formula, setFormula] = useState('')
-  const [result, setResult] = useState(null)
+  const [formula, setFormula] = useWidgetState(instance, '@formula', '')
+  const [result, setResult] = useWidgetState(instance, '@result', null)
 
   const sanitize = text => {
     return /^(sqrt|pow|a?(?:sin|cos|tan)|pi|PI|e|E|log(?:10)|\d|[+\-*/(),.]|\s)*$/.test(text)
@@ -29,7 +31,7 @@ const Widget = ({ className, instance }) => {
     } catch {
       setResult('ERROR')
     }
-  }, [formula])
+  }, [setResult, formula])
 
   return (
     <div className={className}>

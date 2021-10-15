@@ -1,15 +1,16 @@
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
-import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
+import { useSkeletonLoader, useWidgetState } from 'hooks'
 
 const WIDGET_ID = 'hwk_kanye_quote'
 
 const BaseWidget = ({ className, instance }) => {
-  const [advice, setAdvice] = useState(null)
+  const [advice, setAdvice] = useWidgetState(instance, '@advice', null)
   const setIsLoading = useSkeletonLoader(instance)
 
   useEffect(() => {
+    if (advice !== null) return
     (async () => {
       setIsLoading(true)
       const resp = await fetch('https://api.kanye.rest')
@@ -17,7 +18,7 @@ const BaseWidget = ({ className, instance }) => {
       setAdvice(json.quote)
       setIsLoading(false)
     })()
-  }, [setIsLoading])
+  }, [advice, setAdvice, setIsLoading])
 
   return (
     <div className={className}>

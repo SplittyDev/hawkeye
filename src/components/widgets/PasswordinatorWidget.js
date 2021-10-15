@@ -1,20 +1,24 @@
 import styled from 'styled-components'
 import secureRandomPassword from 'secure-random-password'
-import { useEffect, useState } from 'react'
+import { useEffect, useCallback } from 'react'
 import { FiRefreshCw } from 'react-icons/fi'
+
+import { useWidgetState } from 'hooks'
 
 const WIDGET_ID = 'hwk_passwordinator'
 
-const BaseWidget = ({ className }) => {
-  const [password, setPassword] = useState(null)
+const BaseWidget = ({ className, instance }) => {
+  const [password, setPassword] = useWidgetState(instance, '@password', null)
 
-  const generateNewPassword = () => {
+  const generateNewPassword = useCallback(() => {
     setPassword(secureRandomPassword.randomPassword({ length: 12 }))
-  }
+  }, [setPassword])
 
   useEffect(() => {
-    generateNewPassword()
-  }, [])
+    if (password === null) {
+      generateNewPassword()
+    }
+  }, [password, generateNewPassword])
 
   return (
     <div className={className}>

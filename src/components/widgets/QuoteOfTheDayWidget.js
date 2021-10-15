@@ -1,13 +1,13 @@
 import styled from 'styled-components'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { isNil } from 'lodash'
 
-import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
+import { useSkeletonLoader, useWidgetState } from 'hooks'
 
 const WIDGET_ID = 'hwk_quote_of_the_day'
 
 const QuoteOfTheDayWidget = ({ className, instance }) => {
-  const [quote, setQuote] = useState(null)
+  const [quote, setQuote] = useWidgetState(instance, '@quote', null)
   const setIsLoading = useSkeletonLoader(instance)
 
   const fetchQuote = useCallback(async () => {
@@ -29,11 +29,13 @@ const QuoteOfTheDayWidget = ({ className, instance }) => {
     } catch {
       setIsLoading(false)
     }
-  }, [setIsLoading])
+  }, [setQuote, setIsLoading])
 
   useEffect(() => {
-    fetchQuote()
-  }, [fetchQuote])
+    if (quote === null) {
+      fetchQuote()
+    }
+  }, [quote, fetchQuote])
 
   return (
     <div className={className}>

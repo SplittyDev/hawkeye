@@ -1,17 +1,16 @@
 import styled from 'styled-components'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { FiRefreshCw } from 'react-icons/fi'
 
-import { useWidgetAction } from 'hooks/useWidgetAction'
-import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
+import { useWidgetAction, useWidgetState, useSkeletonLoader } from 'hooks'
 
 const WIDGET_ID = 'hwk_ip_address'
 
 const ACTION_REFRESH = 'refresh'
 
 const IpAddressWidget = ({ className, instance, widgetOptions }) => {
-  const [ipAddress4, setIpAddress4] = useState(null)
-  const [ipAddress6, setIpAddress6] = useState(null)
+  const [ipAddress4, setIpAddress4] = useWidgetState(instance, '@ipv4', null)
+  const [ipAddress6, setIpAddress6] = useWidgetState(instance, '@ipv6', null)
 
   const setIsLoading = useSkeletonLoader(instance)
 
@@ -30,13 +29,15 @@ const IpAddressWidget = ({ className, instance, widgetOptions }) => {
       setIpAddress6(ipv6)
     } catch {}
     setIsLoading(false)
-  }, [setIsLoading])
+  }, [setIpAddress4, setIpAddress6, setIsLoading])
 
   useWidgetAction(instance, ACTION_REFRESH, fetchIP)
 
   useEffect(() => {
-    fetchIP()
-  }, [fetchIP])
+    if (ipAddress4 === null && ipAddress6 === null) {
+      fetchIP()
+    }
+  }, [ipAddress4, ipAddress6, fetchIP])
 
   return (
     <div className={className}>
