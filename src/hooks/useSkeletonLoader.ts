@@ -2,16 +2,17 @@ import { useEffect, useCallback } from 'react'
 import { validate as validateUuid } from 'uuid'
 import { has, isNil } from 'lodash'
 
-const widgetLoadingRegistry = {}
+type WidgetLoadingRegistry = {
+  [key: string]: boolean
+}
+
+const widgetLoadingRegistry: WidgetLoadingRegistry = {}
 
 /**
  * A hook providing automanaged skeleton-loading support.
- *
- * @param instanceId {string}
- * @returns {(newValue: boolean) => void}
  */
-export const useSkeletonLoader = instanceId => {
-  const updateFn = useCallback(newValue => {
+export const useSkeletonLoader = (instanceId: string): (arg0: boolean) => void => {
+  const updateFn = useCallback((newValue: boolean) => {
     widgetLoadingRegistry[instanceId] = newValue
   }, [instanceId])
 
@@ -37,6 +38,6 @@ export const useSkeletonLoader = instanceId => {
  * @param instanceId {string}
  * @returns {boolean}
  */
-export const isLoading = instanceId => {
-  return !has(widgetLoadingRegistry, instanceId) ? false : widgetLoadingRegistry[instanceId];
+export const isLoading = (instanceId: string): boolean => {
+  return !has(widgetLoadingRegistry, instanceId) ? false : widgetLoadingRegistry[instanceId]
 }

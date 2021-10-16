@@ -1,7 +1,13 @@
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react"
 import { get, set, isNil } from 'lodash'
 
-const widgetStateRegistry = {}
+type WidgetStateRegistry = {
+  [key: string]: {
+    [key: string]: any
+  }
+}
+
+const widgetStateRegistry: WidgetStateRegistry = {}
 
 type ValueOrUpdater<T> = T | ((value: T) => T)
 type StateUpdater<T> = (valueOrUpdater: ValueOrUpdater<T>) => void
@@ -11,13 +17,13 @@ type StateUpdater<T> = (valueOrUpdater: ValueOrUpdater<T>) => void
  */
 export const useWidgetState = <T>(instanceId: string, ref: string, defaultValue: T): [T, StateUpdater<T>] => {
   const instanceKey = useRef(`${instanceId}.${ref}`)
-  const recentValue = get(widgetStateRegistry, instanceKey.current) ?? defaultValue ?? null
+  const recentValue = (get(widgetStateRegistry, instanceKey.current) ?? defaultValue ?? null) as T | null
   const [internalState, setInternalState] = useState(recentValue)
 
   // Restore state from state registry
   useEffect(() => {
     const newInstanceKey = `${instanceId}.${ref}`
-    const storedValue = get(widgetStateRegistry, instanceKey.current)
+    const storedValue = (get(widgetStateRegistry, instanceKey.current)) as T | null
     if (!isNil(storedValue)) {
       setInternalState(storedValue)
     }

@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 /**
  * A hook providing automanaged `setInterval/clearInterval` functionality.
  */
-const useInterval = (callback, delay) => {
+const useInterval = (callback: () => void, delay: number) => {
   const savedCallback = useRef(callback)
 
   // Remember the latest callback if it changes.
