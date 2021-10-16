@@ -4,7 +4,11 @@
 /node_modules
 /.pnp
 .pnp.js
-flow-typed
+
+# coverage
+/coverage-ts
+/.type-coverage
+/flow-typed
 
 # testing
 /coverage
