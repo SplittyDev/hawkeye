@@ -14,7 +14,7 @@ const IpAddressWidget = ({ className, instance, widgetOptions }) => {
 
   const setIsLoading = useSkeletonLoader(instance)
 
-  const { enableIPv4, enableIPv6 } = widgetOptions;
+  const { enableIPv4, enableIPv6 } = widgetOptions
 
   const fetchIP = useCallback(async () => {
     setIsLoading(true)

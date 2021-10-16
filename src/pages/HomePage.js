@@ -1,12 +1,12 @@
 import styled from 'styled-components'
-import ThemeToggle from "react-dark-mode-toggle";
-import { useRecoilState } from 'recoil';
+import ThemeToggle from "react-dark-mode-toggle"
+import { useRecoilState } from 'recoil'
 
 import Page from 'components/Page'
 import DashboardPicker from 'components/DashboardPicker'
 import DashboardLoader from 'components/DashboardLoader'
-import { themeState } from 'state';
-import { StyledPropTypes } from 'customPropTypes';
+import { themeState } from 'state'
+import { StyledPropTypes } from 'customPropTypes'
 
 const HomePage = ({ className }) => {
   const [theme, setTheme] = useRecoilState(themeState)

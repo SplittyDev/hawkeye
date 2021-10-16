@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 import { RecoilRoot, useRecoilValue } from 'recoil'
 
-import { DarkTheme, LightTheme } from 'theme';
+import { DarkTheme, LightTheme } from 'theme'
 import { themeState } from 'state'
 
 import HomePage from 'pages/HomePage'
@@ -39,4 +39,4 @@ const App = ({ className }) => {
   )
 }
 
-export default App;
+export default App

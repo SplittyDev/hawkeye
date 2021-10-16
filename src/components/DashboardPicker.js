@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { dashboardsState, selectedDashboardState, DEFAULT_DASHBOARD_UUID } from 'state'
 import { DashboardPropType, StyledPropTypes } from 'customPropTypes'
-import type { TDashboard } from "types/TDashboard";
+import type { TDashboard } from "types/TDashboard"
 
 const DashboardCellPropTypes = {
   dashboard: DashboardPropType.isRequired,

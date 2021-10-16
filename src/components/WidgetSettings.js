@@ -80,7 +80,7 @@ const WidgetSettings = ({ className, widget }) => {
 
   const deserialize = (key, defaultValue) => {
     if (!has(widgetSettings, `${widget.instanceId}.${key}`)) {
-      return defaultValue;
+      return defaultValue
     }
     return widgetSettings[widget.instanceId][key]
   }
