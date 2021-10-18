@@ -6,12 +6,6 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^27.0.2",
-    "@types/lodash": "^4.14.175",
-    "@types/node": "^16.11.0",
-    "@types/react": "^17.0.30",
-    "@types/react-dom": "^17.0.9",
-    "@types/uuid": "^8.3.1",
     "caniuse-lite": "^1.0.30001261",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
@@ -35,7 +29,16 @@
   "devDependencies": {
     "flow-bin": "^0.161.0",
     "type-coverage": "^2.18.2",
-    "typescript-coverage-report": "^0.6.0"
+    "typescript-coverage-report": "^0.6.0",
+    "@types/jest": "^27.0.2",
+    "@types/lodash": "^4.14.175",
+    "@types/node": "^16.11.0",
+    "@types/prop-types": "^15.7.4",
+    "@types/react": "^17.0.30",
+    "@types/react-dom": "^17.0.9",
+    "@types/secure-random-password": "^0.2.1",
+    "@types/styled-components": "^5.1.15",
+    "@types/uuid": "^8.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
