@@ -9,13 +9,13 @@ type WidgetStateRegistry = {
 
 const widgetStateRegistry: WidgetStateRegistry = {}
 
-type ValueOrUpdater<T> = T | ((value: T) => T)
+type ValueOrUpdater<T> = T | ((value: T | null) => T)
 type StateUpdater<T> = (valueOrUpdater: ValueOrUpdater<T>) => void
 
 /**
  * A hook for managing widget state across context switches.
  */
-export const useWidgetState = <T>(instanceId: string, ref: string, defaultValue: T): [T, StateUpdater<T>] => {
+export const useWidgetState = <T>(instanceId: string, ref: string, defaultValue: T | null): [T, StateUpdater<T>] => {
   const instanceKey = useRef(`${instanceId}.${ref}`)
   const recentValue = (get(widgetStateRegistry, instanceKey.current) ?? defaultValue ?? null) as T | null
   const [internalState, setInternalState] = useState(recentValue)
