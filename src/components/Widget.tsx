@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Rodal from "rodal"
-import PropTypes, { InferProps } from 'prop-types'
+import PropTypes from 'prop-types'
 import { isNil, cloneDeep, findIndex, get } from "lodash"
 import { FiSettings, FiTrash2 } from "react-icons/fi"
 import { useCallback, useState } from 'react'

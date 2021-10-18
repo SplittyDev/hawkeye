@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { ComponentType, FormEvent, InputHTMLAttributes, useEffect } from 'react'
+import { ComponentType, ChangeEvent, useEffect } from 'react'
 
 import { useWidgetState } from 'hooks'
 import { WidgetProps } from 'types'
@@ -34,10 +34,8 @@ const Widget: ComponentType<WidgetProps> = ({ className, instance }) => {
     }
   }, [setResult, formula])
 
-  const handleClick = (event: FormEvent<HTMLInputElement>) => {
-    if (event.target === null) return
-    const value = (event.target as any as { value: string }).value
-    setFormula(value)
+  const handleClick = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormula(e.target.value)
   }
 
   return (

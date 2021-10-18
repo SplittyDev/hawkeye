@@ -11,7 +11,6 @@ import { DarkTheme, LightTheme } from 'theme'
 import { themeState } from 'state'
 
 import HomePage from 'pages/HomePage'
-import { ReactComponentLike } from 'prop-types'
 import { ReactNode } from 'react'
 
 const AppWrapper = ({ children }: { children: ReactNode }) => {

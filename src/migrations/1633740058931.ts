@@ -6,10 +6,6 @@ import ModuleList from 'components/widgets'
 import { WidgetHelper } from 'helpers'
 import { TWidget, TDashboard } from "types"
 
-type TAnyDict = {
-  [key: string]: any
-}
-
 /**
  * Name: widget-instances
  * Description:

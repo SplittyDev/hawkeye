@@ -5,7 +5,6 @@ import { FiRefreshCw } from 'react-icons/fi'
 
 import { useWidgetState } from 'hooks'
 import { WidgetProps } from 'types'
-import { Theme } from 'theme'
 
 const WIDGET_ID = 'hwk_passwordinator'
 
