@@ -3,13 +3,13 @@ import { ComponentType, useEffect } from 'react'
 import { FiRefreshCw } from 'react-icons/fi'
 
 import { useSkeletonLoader, useWidgetAction, useWidgetState } from 'hooks'
-import { WidgetProps } from 'types'
+import { WidgetProps } from 'customPropTypes'
 
 // Widget Actions
 const ACTION_REFRESH = 'refresh'
 
 // Widget Implementation
-const Widget: ComponentType<WidgetProps> = ({ className, instance, widgetOptions }) => {
+const Widget = ({ className, instance, widgetOptions }: WidgetProps<{}>) => {
 
   // Extract widget options
   const { isEnabled } = widgetOptions as {
@@ -48,7 +48,7 @@ const Widget: ComponentType<WidgetProps> = ({ className, instance, widgetOptions
 }
 
 // Widget Styling
-const WidgetStyled: ComponentType<WidgetProps> = styled(Widget)`
+const WidgetStyled = styled(Widget)`
 `
 
 // Widget Definition
