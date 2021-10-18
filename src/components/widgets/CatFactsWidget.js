@@ -13,7 +13,8 @@ const Widget = ({ className, instance }) => {
 
   const catFacts = useCallback(async () =>{
       const response = await fetch('https://catfact.ninja/fact')
-      const outcome = response.toString()
+      const json = await response.json()
+      const outcome = json.fact
       setUrl(outcome)
       setIsLoading(false)
   }, [setIsLoading])
@@ -30,7 +31,6 @@ const Widget = ({ className, instance }) => {
     </div>
   )
 }
-
 
 const WidgetStyled = styled(Widget)`
 
