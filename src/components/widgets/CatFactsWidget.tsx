@@ -1,10 +1,9 @@
 import styled from 'styled-components'
-import {useCallback ,useEffect} from 'react'
+import { useCallback, useEffect } from 'react'
 import { FiRefreshCw } from 'react-icons/fi'
 
 import { WidgetProps } from 'customPropTypes'
 import { useWidgetAction, useWidgetState, useSkeletonLoader } from 'hooks'
-
 
 const ACTION_REFRESH = 'refresh'
 
@@ -36,7 +35,6 @@ const Widget = ({ className, instance }: WidgetProps<{}>) => {
 }
 
 const WidgetStyled = styled(Widget)`
-
 `
 
 const WidgetDefinition = {
