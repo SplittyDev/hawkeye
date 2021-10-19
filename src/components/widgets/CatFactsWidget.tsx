@@ -1,33 +1,36 @@
 import styled from 'styled-components'
-import {useCallback ,useEffect, useState } from 'react'
-import { useSkeletonLoader } from 'hooks/useSkeletonLoader'
+import {useCallback ,useEffect} from 'react'
 import { FiRefreshCw } from 'react-icons/fi'
 
-import { useWidgetAction } from 'hooks/useWidgetAction'
+import { WidgetProps } from 'customPropTypes'
+import { useWidgetAction, useWidgetState, useSkeletonLoader } from 'hooks'
+
 
 const ACTION_REFRESH = 'refresh'
 
-const Widget = ({ className, instance }) => {
-  const [url, setUrl] = useState()
+const Widget = ({ className, instance }: WidgetProps<{}>) => {
+  const [fact, setFact] = useWidgetState<string>(instance, '@fact', null)
   const setIsLoading = useSkeletonLoader(instance)
 
-  const catFacts = useCallback(async () =>{
+  const fetchCatFacts = useCallback(async () => {
       const response = await fetch('https://catfact.ninja/fact')
-      const json = await response.json()
+      const json = await response.json() as {
+        fact: string
+      }
       const outcome = json.fact
-      setUrl(outcome)
+      setFact(outcome)
       setIsLoading(false)
   }, [setIsLoading])
 
-  useWidgetAction(instance ,ACTION_REFRESH, catFacts)
+  useWidgetAction(instance, ACTION_REFRESH, fetchCatFacts)
 
   useEffect(() => {
-    catFacts()
-  }, [catFacts])
+    fetchCatFacts()
+  }, [fetchCatFacts])
 
   return (
     <div className={className}>
-      <div>{url}</div>
+      {fact}
     </div>
   )
 }
@@ -37,8 +40,8 @@ const WidgetStyled = styled(Widget)`
 `
 
 const WidgetDefinition = {
-  id: 'hwk_catFacts',
-  name: 'CatFacts',
+  id: 'hwk_cat_facts',
+  name: 'Cat Facts',
   tags: ['cat', 'facts','quotes'],
   actions: {
     [ACTION_REFRESH]: {
