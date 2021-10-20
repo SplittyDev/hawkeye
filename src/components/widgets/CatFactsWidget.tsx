@@ -24,8 +24,9 @@ const Widget = ({ className, instance }: WidgetProps<{}>) => {
   useWidgetAction(instance, ACTION_REFRESH, fetchCatFacts)
 
   useEffect(() => {
+    if (fact !== null) return
     fetchCatFacts()
-  }, [fetchCatFacts])
+  }, [fetchCatFacts, fact])
 
   return (
     <div className={className}>
