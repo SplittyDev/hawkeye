@@ -19,7 +19,7 @@ const Widget = ({ className, instance }: WidgetProps<{}>) => {
       const outcome = json.fact
       setFact(outcome)
       setIsLoading(false)
-  }, [setIsLoading])
+ }, [setIsLoading, setFact])
 
   useWidgetAction(instance, ACTION_REFRESH, fetchCatFacts)
 
