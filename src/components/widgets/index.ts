@@ -10,6 +10,7 @@ import SimpleCryptoPriceWidget from './SimpleCryptoPriceWidget'
 import CatWidget from './CatWidget'
 import CalculatorWidget from './CalculatorWidget'
 import CatFactsWidget from './CatFactsWidget'
+import PeterKleemannWidget from './PeterKleemannWidget'
 
 const ModuleList = [
   IpAddressWidget,
@@ -22,6 +23,7 @@ const ModuleList = [
   CatWidget,
   CalculatorWidget,
   CatFactsWidget,
+  PeterKleemannWidget,
 ] as TWidget[]
 
 export default ModuleList
