@@ -30,7 +30,7 @@ const BaseWidget: ComponentType<WidgetProps> = ({ className, instance }) => {
   )
 }
 
-const BaseWidgetStyled: ComponentType<WidgetProps> = styled(BaseWidget)`
+const BaseWidgetStyled = styled(BaseWidget)`
 `
 
 const WidgetDefinition = {
